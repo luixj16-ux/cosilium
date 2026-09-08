@@ -15,7 +15,7 @@
 
 **Para el operador humano / CTO:**
 1. Copia el **bloque completo** de `## PROMPT DEL AGENTE` (Secciones 1–9) y pégalo como prompt al agente.
-2. Indica al agente la **ruta destino** del nuevo proyecto (p. ej. `ged/` o un repo separado). Si no se indica, usar la raíz actual.
+2. Indica al agente la **ruta destino** del nuevo proyecto (p. ej. `consilium/` o un repo separado). Si no se indica, usar la raíz actual.
 3. Entrega al agente el contenido de `CONSILIUM.md` y `CONSILIUM_RULES.md` como **contexto** (opcional, útil para que respete las convenciones agénticas del repo).
 4. Exige que el agente confirme, al terminar, una **checklist de verificación** (Sección 9) antes de dar el trabajo por cerrado.
 
@@ -135,21 +135,21 @@ El núcleo de la aplicación (Domain, Application y la lógica de Sincronizació
 
 ## 2. Stack Tecnológico — Definición de Estructura del Monorepo
 
-Monta un **monorepo** con **Turborepo o Nx** (elige uno y documenta por qué). Es **vital** para separar el código de dominio `@ged/core` de las aplicaciones visuales `@ged/web`, `@ged/desktop`, `@ged/mobile`. Genera la estructura de paquetes y la configuración de cada uno.
+Monta un **monorepo** con **Turborepo o Nx** (elige uno y documenta por qué). Es **vital** para separar el código de dominio `@consilium/core` de las aplicaciones visuales `@consilium/web`, `@consilium/desktop`, `@consilium/mobile`. Genera la estructura de paquetes y la configuración de cada uno.
 
 ### 2.1 Estructura de Paquetes (monorepo)
 
 ```
-cosilium/
+consilium/
 ├── apps/
 │   ├── web/            # React + Vite (SPA)
 │   ├── desktop/        # Tauri v2 + React (mismo core)
 │   └── mobile/         # Capacitor v6 (Ionic) + React
 ├── packages/
-│   ├── core/           # @ged/core — DOMINIO + APLICACIÓN + SYNC (el corazón)
+│   ├── core/           # @consilium/core — DOMINIO + APLICACIÓN + SYNC (el corazón)
 │   ├── domain/         # (o integrado en core) — capa de dominio puro
-│   ├── ui/             # @ged/ui — librería de dumb components compartidos
-│   └── contracts/      # @ged/contracts — Tipos GraphQL y DTOs compartidos
+│   ├── ui/             # @consilium/ui — librería de dumb components compartidos
+│   └── contracts/      # @consilium/contracts — Tipos GraphQL y DTOs compartidos
 ├── rust/
 │   ├── wasm-engine/    # crate Rust → Wasm (binarización, compresión, sha256)
 │   └── tauri-native/   # lógica nativa Tauri (file watching, fs masivo)
@@ -232,7 +232,7 @@ export const DocumentUploadList: React.FC<DocumentUploadListProps> = ({
 
 ### 3.2 Arquitectura DDD en el Cliente Offline
 
-El dominio vive dentro de `@ged/core` con **4 capas tácticas**:
+El dominio vive dentro de `@consilium/core` con **4 capas tácticas**:
 
 - **Domain Layer:** `DocumentAggregate`. Valida reglas de negocio **en frío** (p. ej. un documento no puede tener más de 500 páginas offline; formato de extensión válido). **TypeScript puro, sin dependencias de frameworks.**
 - **Application Layer:** casos de uso como `QueueDocumentForUploadUseCase.ts`. Orquesta la lectura del archivo, llama al procesador de Rust (Wasm) e inserta el registro en el almacenamiento local.
@@ -328,9 +328,9 @@ Crea bajo `.agents/skills/` cada skill como una carpeta con su `SKILL.md` (sigui
 5. **`offline-sync`/** — arquitectura append-only, outbox, drenaje, verificación de existencia, presigned URLs.
 6. **`react-tauri-capacitor`/** — cómo esstrenar el core compartido entre web/desktop/mobile sin duplicar lógica.
 7. **`naming-conventions`/** — las reglas PascalCase/camelCase, cuándo aplica cada una.
-8. **`graphql-contracts`/** — generación y uso de tipos GraphQL compartidos en `@ged/contracts`.
+8. **`graphql-contracts`/** — generación y uso de tipos GraphQL compartidos en `@consilium/contracts`.
 
-Cada `SKILL.md` debe incluir: **cuándo usar el skill**, **reglas no negociables**, **checklist de verificación** y un **ejemplo canónico** (adaptado del dominio GED).
+Cada `SKILL.md` debe incluir: **cuándo usar el skill**, **reglas no negociables**, **checklist de verificación** y un **ejemplo canónico** (adaptado del dominio consilium).
 
 ---
 
@@ -359,7 +359,7 @@ Además de los skills, genera **obligatoriamente**:
 Al finalizar, el agente debe ejecutar y reportar el estado (**✅ CUMPLIDO** / **❌ FALLIDO / ⚠️ PARCIAL**) de cada ítem:
 
 - [ ] **A. Estructura monorepo creada** (Turborepo o Nx) con `apps/web`, `apps/desktop`, `apps/mobile`, `packages/core`, `packages/ui`, `packages/contracts`, `rust/`.
-- [ ] **B. Capas DDD correctas** en `@ged/core` (domain/application/infrastructure) con dependencias hacia adentro verificables.
+- [ ] **B. Capas DDD correctas** en `@consilium/core` (domain/application/infrastructure) con dependencias hacia adentro verificables.
 - [ ] **C. Configuración agentica** (`AGENTS.md` + `.agents/rules/` + `.agents/skills/`) completa y coherente con este documento.
 - [ ] **D. Archivo de n8n diferido** (`.agents/n8n-future/FUTURE_README.md`) creado, con puntos de integración y contratos neutrales. **Sin código n8n.**
 - [ ] **E. Dumb components** demostrados con la plantilla canónica (`DocumentUploadList`).
