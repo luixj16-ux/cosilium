@@ -1,0 +1,47 @@
+# Dependencias
+node_modules/
+
+# Builds
+dist/
+build/
+out/
+.turbo/
+*.tsbuildinfo
+
+# Entorno y secretos
+.env
+.env.*
+!.env.example
+
+# Base de datos local
+*.sqlite
+*.sqlite3
+*.db
+
+# Rust
+target/
+**/target/
+
+# Capacitor
+apps/mobile/android/
+apps/mobile/ios/
+
+# Tauri
+apps/desktop/src-tauri/gen/
+
+# Logs y cobertura
+*.log
+coverage/
+.vitest/
+
+# Editor
+.vscode/
+.idea/
+.DS_Store
+
+# Binarios grandes / generados
+*.wasm
+!rust/wasm-engine/pkg/.gitkeep
+
+# Sistema
+Thumbs.db

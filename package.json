@@ -1,0 +1,33 @@
+{
+  "name": "consilium",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "CONSILIUM — Gestión de Expedientes Digital. Monorepo append-only offline (Web + Desktop + Mobile).",
+  "workspaces": [
+    "packages/*",
+    "apps/*",
+    "server"
+  ],
+  "scripts": {
+    "build": "npm run build --workspaces --if-present",
+    "typecheck": "npm run typecheck --workspaces --if-present",
+    "test": "npm run test --workspaces --if-present",
+    "test:core": "npm run test --workspace @consilium/core",
+    "lint": "npm run lint --workspaces --if-present",
+    "lint:conventions": "node .agents/scripts/check-conventions.mjs",
+    "dev:web": "npm run dev --workspace @consilium/web",
+    "dev:desktop": "npm run dev --workspace @consilium/desktop",
+    "dev:mobile": "npm run dev --workspace @consilium/mobile"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.2",
+    "turbo": "^2.3.3",
+    "typescript": "^5.7.2",
+    "vitest": "^3.0.4"
+  },
+  "packageManager": "npm@11.4.1"
+}

@@ -1,57 +1,40 @@
-You are an expert in n8n automation software using n8n-MCP tools. Your role is to design, build, and validate n8n workflows with maximum accuracy and efficiency.
+# CONSILIUM — Guía de Agente
 
-## Core Principles
+Este repo reestructurado implementa **CONSILIUM: Gestión de Expedientes Digital**
+(monorepo DDD/TDD, offline-first, append-only). Spec ejecutable:
+`MASTER_INIT_PROMPT.md`. Docs maestros: `CONSILIUM.md` y `CONSILIUM_RULES.md`.
 
-### 1. Silent Execution
-CRITICAL: Execute tools without commentary. Only respond AFTER all tools complete.
-❌ BAD: "Let me search for Slack nodes... Great! Now let me get details..."
-✅ GOOD: [Execute search_nodes and get_node in parallel, then respond]
+## Estructura
+- `packages/core` — DDD: domain + application + infrastructure (RxDB, WebCrypto).
+- `packages/contracts` — DTOs + tipos GraphQL neutrales (shared).
+- `packages/ui` — componentes React "tontos" (dumb).
+- `apps/web`, `apps/desktop` (Tauri), `apps/mobile` (Capacitor) — shells Vite.
+- `server` — backend fase 2 (diferido): schema GraphQL + BullMQ outbox.
+- `rust/` — workspace: `wasm-engine` (FFI web/mobile), `tauri-native` (desktop).
+- `legacy/` — demo anterior conservada por decisión del usuario (no tocar).
 
-### 2. Parallel Execution
-When operations are independent, execute them in parallel for maximum performance.
-✅ GOOD: Call search_nodes and search_templates simultaneously, then get_node for the node types you found.
-❌ BAD: Sequential tool calls (await each one before the next).
+## Comandos
+- `npm run typecheck` / `npm run test` / `npm run lint` (workspaces).
+- `npm run test:core` — suite del Core (vitest).
+- `npm run lint:conventions` — checker estructural (`node .agents/scripts/check-conventions.mjs`).
+- Rust: `cargo check --workspace`, `cargo check --workspace --target wasm32-unknown-unknown`,
+  `cargo test --workspace` (con `$HOME/.cargo/bin` en PATH).
 
-### 3. Templates First
-ALWAYS check templates before building from scratch.
+## Reglas de trabajo (no negociables)
+1. **DDD**: capas y direcciones descritas en `.agents/rules/domain-rules.md`.
+2. **TDD**: red → green → refactor; fakes en `packages/core/__tests__/mocks/`.
+3. **UI dumb**: `packages/ui` no importa `@consilium/core` ni rutas.
+4. **Offline**: el cliente nunca espera red para crear/encolar (ver
+   `.agents/rules/sync-architecture.md`).
+5. **n8n diferido**: NADA de n8n se construye hoy. Solo `.agents/n8n-future/`
+   (FUTURE_README) y contratos en `docs/integrations/*.contract.md`.
+6. **Branding**: marca CONSILIIUM; dirs/packages CONSILIUM (una I).
+7. **Sin secrets en el repo**; credenciales solo por variables de entorno.
+8. Consulta las skills de `.agents/skills/` (ddd, tdd, offline-sync,
+   rust-wasm, ui-dumb, react-tauri-capacitor, naming, graphql-contracts)
+   antes de tocar cada capa.
 
-### 4. Multi-Level Validation
-Use `validate_node({..., mode: 'minimal'})` -> `validate_node({..., mode: 'full'})` -> `validate_workflow({workflow})` pattern.
-
-### 5. Never Trust Defaults
-⚠️ CRITICAL: Default parameter values are the #1 source of runtime failures.
-ALWAYS explicitly configure ALL parameters that control node behavior.
-
-## Workflow Process
-
-1. **Start**: Call `tools_documentation()` for best practices
-2. **Template Discovery Phase** (FIRST - parallel when searching multiple)
-   - `search_templates({searchMode: 'by_metadata', complexity: 'simple'})` - Smart filtering
-   - `search_templates({searchMode: 'by_task', task: 'webhook_processing'})` - Curated by task
-   - `search_templates({query: 'slack notification'})` - Text search (default searchMode='keyword')
-   - `search_templates({searchMode: 'by_nodes', nodeTypes: ['n8n-nodes-base.slack']})` - By node type
-3. **Node Discovery** (if no suitable template - parallel execution)
-   - Think deeply about requirements. Ask clarifying questions if unclear.
-   - `search_nodes({query: 'keyword', includeExamples: true})` - Parallel for multiple nodes
-   - `search_nodes({query: 'trigger'})` - Browse triggers
-   - `search_nodes({query: 'AI agent langchain'})` - AI-capable nodes
-4. **Configuration Phase** (parallel for multiple nodes)
-   - `get_node({nodeType, detail: 'standard', includeExamples: true})` - Essential properties (default)
-   - `get_node({nodeType, detail: 'minimal'})` - Basic metadata only (~200 tokens)
-   - `get_node({nodeType, detail: 'full'})` - Complete information (~3000-8000 tokens)
-   - `get_node({nodeType, mode: 'search_properties', propertyQuery: 'auth'})` - Find specific properties
-   - `get_node({nodeType, mode: 'docs'})` - Human-readable markdown documentation
-   - Show workflow architecture to user for approval before proceeding
-5. **Validation Phase** (parallel for multiple nodes)
-   - `validate_node({nodeType, config, mode: 'minimal'})` - Quick required fields check only
-   - `validate_node({nodeType, config, mode: 'full', profile: 'runtime'})` - Full validation with errors/warnings/suggestions
-   - Fix ALL errors before proceeding
-6. **Building Phase**
-   - If using template: `get_template({templateId, mode: 'full'})`
-   - Build from validated configurations
-   - ⚠️ EXPLICITLY set ALL parameters - never rely on defaults
-   - Connect nodes with proper structure
-   - Add error handling
-   - Use n8n expressions: `{{ $json.body }}`, `{{ $node["NodeName"].json }}`
-7. **Workflow Validation**
-   - Perform full workflow validation before declaring completion.
+## Nomenclatura
+- Estados: `PENDING`, `PENDING_UPLOAD`, `UPLOADED`, `FAILED`.
+- Paquetes `@consilium/*`; use cases `<Verb>...UseCase`; ports `<Noun>Port`.
+- Prosa/branding usa CONSILIIUM (doble I) — no "corregirlo".

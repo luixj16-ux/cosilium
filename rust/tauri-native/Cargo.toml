@@ -1,0 +1,17 @@
+[package]
+name = "consilium-tauri-native"
+version.workspace = true
+edition.workspace = true
+description = "CONSILIUM tauri-native — lógica nativa de escritorio (Tauri): ingesta masiva por File Association, Folder Watching y manejo de archivos grandes del Core."
+license = "UNLICENSED"
+
+[lib]
+crate-type = ["rlib"]
+
+[dependencies]
+notify = "7"
+serde = { version = "1", features = ["derive"] }
+
+[dev-dependencies]
+tempfile = "3"
+serde_json = "1"

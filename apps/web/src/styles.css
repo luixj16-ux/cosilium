@@ -1,0 +1,57 @@
+:root {
+  font-family: 'Nunito Sans', system-ui, sans-serif;
+  color-scheme: light dark;
+}
+
+body {
+  margin: 0;
+  background: #eef8f8;
+  color: #12333d;
+}
+
+.App-main {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 32px 16px;
+}
+
+.App-title {
+  color: #164b59;
+}
+
+.DocumentUploadList-container {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 6px 20px rgba(18, 51, 61, 0.07);
+}
+
+.DocumentRow-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid #effafa;
+}
+
+.DocumentRow-title {
+  font-weight: 700;
+}
+
+.DocumentRow-status {
+  font-size: 0.8rem;
+  padding: 4px 10px;
+  border-radius: 9999px;
+  background: #dff4f2;
+  color: #087f8c;
+}
+
+.DocumentRow-action {
+  border: 1px solid #087f8c;
+  background: transparent;
+  color: #087f8c;
+  border-radius: 10px;
+  padding: 6px 12px;
+  cursor: pointer;
+}

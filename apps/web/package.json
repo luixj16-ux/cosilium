@@ -1,0 +1,28 @@
+{
+  "name": "@consilium/web",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "CONSILIUM Web — SPA React (Vite) que consume @consilium/core.",
+  "main": "src/main.tsx",
+  "scripts": {
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "build": "vite build",
+    "dev": "vite",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@consilium/contracts": "*",
+    "@consilium/core": "*",
+    "@consilium/ui": "*",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "@vitejs/plugin-react": "^4.3.4",
+    "typescript": "^5.7.2",
+    "vite": "^7.0.0"
+  }
+}
