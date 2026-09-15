@@ -4,74 +4,19 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SISTEMA DE GESTIÓN JUDICIAL - TSJ</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,400;0,6..12,500;0,6..12,600;0,6..12,700;0,6..12,800;1,6..12,400&family=Outfit:wght@400;500;600;700;800;900&display=swap">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"></noscript>
   <link rel="stylesheet" href="styles.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 <body>
 
-  <img class="water-ring-background" src=".agents/water-ring-transparent.png" alt="" aria-hidden="true">
-
-  <!-- ========================================================================
-       HEADER INSTITUCIONAL: LOGO TSJ + DAMA DE LA JUSTICIA (MUJER CIEGA)
-       ======================================================================== -->
+  <!-- HEADER INSTITUCIONAL -->
   <header class="clean-header">
     <div class="brand-section" onclick="goToHomeCourts()">
-      <div class="header-emblems-group">
-        <!-- 1. Logo Oficial TSJ -->
-        <div class="tsj-official-seal" title="Tribunal Supremo de Justicia">
-          <svg viewBox="0 0 100 100" width="48" height="48" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="50" cy="50" r="47" fill="#092C53" stroke="#C59B27" stroke-width="3"/>
-            <circle cx="50" cy="50" r="41" fill="#0D47A1" stroke="#D4AF37" stroke-width="1.5" stroke-dasharray="3 1.5"/>
-            <path d="M50 14 C36 14 30 22 30 36 C30 60 50 78 50 78 C50 78 70 60 70 36 C70 22 64 14 50 14 Z" fill="#061C38" stroke="#D4AF37" stroke-width="2"/>
-            <rect x="48.5" y="24" width="3" height="34" rx="1.5" fill="#D4AF37"/>
-            <path d="M44 58 L56 58 L54 62 L46 62 Z" fill="#C59B27"/>
-            <path d="M33 30 L67 30 L65 33 L35 33 Z" fill="#D4AF37"/>
-            <circle cx="50" cy="24" r="3.5" fill="#D4AF37"/>
-            <path d="M34 33 L28 44 M36 33 L42 44" stroke="#D4AF37" stroke-width="1.2"/>
-            <path d="M26 44 C26 48 44 48 44 44 Z" fill="#C59B27" stroke="#D4AF37" stroke-width="1"/>
-            <path d="M64 33 L58 44 M66 33 L72 44" stroke="#D4AF37" stroke-width="1.2"/>
-            <path d="M56 44 C56 48 74 48 74 44 Z" fill="#C59B27" stroke="#D4AF37" stroke-width="1"/>
-            <text x="50" y="93" text-anchor="middle" font-family="'Plus Jakarta Sans', sans-serif" font-size="7.5" font-weight="900" fill="#D4AF37" letter-spacing="1.2">TSJ • VENEZUELA</text>
-          </svg>
-        </div>
-
-        <!-- 2. Dama de la Justicia (Mujer Ciega con Balanza y Espada) -->
-        <div class="justice-lady-seal" title="Iustitia - Dama de la Justicia">
-          <svg viewBox="0 0 100 100" width="46" height="46" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <!-- Medallón Dorado con Fondo Azul Imperial -->
-            <circle cx="50" cy="50" r="46" fill="#061C38" stroke="#D4AF37" stroke-width="2.5"/>
-            <!-- Laureles Decorativos -->
-            <path d="M14 62 C14 38 28 20 50 16 C72 20 86 38 86 62" stroke="#C59B27" stroke-width="1.5" stroke-dasharray="2 2"/>
-            
-            <!-- Silueta / Escultura de la Dama de la Justicia (Iustitia) -->
-            <!-- Túnica y Hombros -->
-            <path d="M34 84 C34 68 40 56 50 56 C60 56 66 68 66 84 Z" fill="#D4AF37" opacity="0.95"/>
-            <path d="M42 56 L50 72 L58 56 Z" fill="#C59B27"/>
-            <!-- Cabeza con Venda en los Ojos -->
-            <circle cx="50" cy="38" r="11" fill="#D4AF37"/>
-            <!-- Venda Blanca / Dorada en los Ojos -->
-            <rect x="40" y="36" width="20" height="4.5" rx="2" fill="#FFFFFF" stroke="#092C53" stroke-width="0.8"/>
-            <!-- Corona de Cabello / Tocado Clásico -->
-            <path d="M40 34 C42 26 58 26 60 34 Z" fill="#C59B27"/>
-            
-            <!-- Espada de la Ley (Mano Derecha) -->
-            <rect x="25" y="24" width="2" height="38" rx="1" fill="#FFFFFF"/>
-            <path d="M22 34 L30 34" stroke="#D4AF37" stroke-width="2"/>
-            <circle cx="26" cy="63" r="2" fill="#D4AF37"/>
-            <polygon points="26,20 24,24 28,24" fill="#FFFFFF"/>
-            
-            <!-- Balanza de la Equidad (Mano Izquierda) -->
-            <path d="M68 28 L82 28" stroke="#D4AF37" stroke-width="2"/>
-            <circle cx="75" cy="28" r="2" fill="#D4AF37"/>
-            <!-- Cuerdas y Platillos -->
-            <path d="M70 29 L66 38 M72 29 L76 38" stroke="#D4AF37" stroke-width="1"/>
-            <path d="M65 38 C65 41 77 41 77 38 Z" fill="#D4AF37"/>
-            <path d="M78 29 L74 38 M80 29 L84 38" stroke="#D4AF37" stroke-width="1"/>
-            <path d="M73 38 C73 41 85 41 85 38 Z" fill="#D4AF37"/>
-          </svg>
-        </div>
-      </div>
-
+      <div class="header-emblems-group"></div>
       <div class="brand-titles">
         <div class="brand-name brand-name-stacked">
           <span class="brand-app-subtitle">SISTEMA DE GESTIÓN JUDICIAL</span>
@@ -98,29 +43,24 @@
       </button>
     </nav>
 
-    <!-- Sección de Autenticación y Perfil -->
     <div class="header-auth-section">
-      <!-- Indicador de Rol Actual -->
       <div class="role-badge-display" id="user-role-badge">
         <span class="role-tag-indicator role-tag-public" id="role-indicator-tag">Público</span>
         <span id="role-display-name">Consulta General</span>
       </div>
-
-      <!-- Botón de Login / Switch de Perfil -->
       <button class="btn-main btn-primary-clean" id="btn-login-header" onclick="openLoginModal()">
         <i class="fa-solid fa-right-to-bracket"></i> Iniciar Sesión / Rol
       </button>
-
-      <!-- Toggle Tema Claro/Oscuro -->
+      <button class="btn-main btn-outline-clean" id="btn-logout-header" onclick="logout()" style="display: none;">
+        <i class="fa-solid fa-right-from-bracket"></i> Cerrar Sesión
+      </button>
       <button class="btn-circle" title="Cambiar Tema" onclick="toggleTheme()">
         <i class="fa-solid fa-moon" id="theme-icon"></i>
       </button>
     </div>
   </header>
 
-  <!-- ========================================================================
-       BARRA DE RUTA (BREADCRUMB)
-       ======================================================================== -->
+  <!-- BREADCRUMB -->
   <div class="breadcrumb-bar">
     <div class="breadcrumb-nav">
       <span class="breadcrumb-link" onclick="goToHomeCourts()"><i class="fa-solid fa-building-columns"></i> Tribunales de Venezuela</span>
@@ -132,16 +72,11 @@
     </div>
   </div>
 
-  <!-- ========================================================================
-       CONTENIDO PRINCIPAL
-       ======================================================================== -->
+  <!-- CONTENIDO PRINCIPAL -->
   <main class="app-content">
 
-    <!-- ======================================================================
-         1. VISTA PRINCIPAL: HERO BANNER & TRIBUNALES VENEZOLANOS
-         ====================================================================== -->
+    <!-- VISTA PRINCIPAL -->
     <section id="view-courts" class="view-section active">
-      <!-- Hero Banner de acceso principal -->
       <div class="tsj-hero-header">
         <div class="tsj-hero-content">
           <div class="tsj-badge-official">
@@ -149,7 +84,6 @@
           </div>
           <h1>Portal Judicial de la República Bolivariana de Venezuela</h1>
           <p>Consulte, descargue y tramite expedientes oficiales en todas las circunscripciones judiciales y salas del Tribunal Supremo de Justicia.</p>
-
           <div class="service-signals" aria-label="Características del servicio">
             <span><i class="fa-solid fa-magnifying-glass"></i> Consulta por tribunal o expediente</span>
             <span><i class="fa-solid fa-lock-open"></i> Acceso público de solo lectura</span>
@@ -159,13 +93,7 @@
       </div>
 
       <div class="portal-panel" id="courts-panel" data-portal-panel hidden>
-        <div class="section-headline">
-          <div>
-            <span class="panel-kicker">Poder Judicial</span>
-            <h2>Jurisdicciones y Tribunales</h2>
-            <p>Seleccione el tribunal o fuero correspondiente para consultar y descargar los expedientes en curso.</p>
-          </div>
-        </div>
+        <div class="section-headline"><div><span class="panel-kicker">Poder Judicial</span><h2>Jurisdicciones y Tribunales</h2><p>Seleccione el tribunal o fuero correspondiente para consultar y descargar los expedientes en curso.</p></div></div>
         <div class="tribunal-list-panel">
           <div class="tribunal-list-header"><span>Tribunales y Jurisdicciones</span></div>
           <div class="tribunales-list" id="tribunales-grid-container"></div>
@@ -173,13 +101,7 @@
       </div>
 
       <div class="portal-panel" id="laws-panel" data-portal-panel hidden>
-        <div class="section-headline">
-          <div>
-            <span class="panel-kicker">Biblioteca jurídica</span>
-            <h2>Leyes y normativa venezolana</h2>
-            <p>Explore el marco legal organizado por materia y acceda rápidamente a sus instrumentos principales.</p>
-          </div>
-        </div>
+        <div class="section-headline"><div><span class="panel-kicker">Biblioteca jurídica</span><h2>Leyes y normativa venezolana</h2><p>Explore el marco legal organizado por materia y acceda rápidamente a sus instrumentos principales.</p></div></div>
         <aside class="law-portal-panel">
           <div class="law-category-tabs" id="law-category-tabs"></div>
           <div class="law-list" id="law-list-container"></div>
@@ -187,13 +109,7 @@
       </div>
 
       <div class="portal-panel" id="institution-panel" data-portal-panel hidden>
-        <div class="section-headline">
-          <div>
-            <span class="panel-kicker">Identidad institucional</span>
-            <h2>Tribunal Supremo de Justicia</h2>
-            <p>Principios que orientan el servicio judicial y el compromiso público del TSJ.</p>
-          </div>
-        </div>
+        <div class="section-headline"><div><span class="panel-kicker">Identidad institucional</span><h2>Tribunal Supremo de Justicia</h2><p>Principios que orientan el servicio judicial y el compromiso público del TSJ.</p></div></div>
         <div class="institution-grid">
           <article class="institution-card institution-card-featured"><span class="institution-icon"><i class="fa-solid fa-bullseye"></i></span><div><span class="institution-label">Misión</span><h3>Garantizar justicia accesible</h3><p>Administrar justicia de manera independiente, transparente, oportuna y cercana a la ciudadanía, protegiendo los derechos y garantías constitucionales.</p></div></article>
           <article class="institution-card"><span class="institution-icon"><i class="fa-solid fa-eye"></i></span><div><span class="institution-label">Visión</span><h3>Un poder judicial confiable</h3><p>Ser una institución moderna, ágil y reconocida por la excelencia de sus decisiones y la transformación digital de sus servicios.</p></div></article>
@@ -228,11 +144,8 @@
       </section>
     </section>
 
-    <!-- ======================================================================
-         2. VISTA: EXPEDIENTES DEL TRIBUNAL SELECCIONADO
-         ====================================================================== -->
+    <!-- VISTA: EXPEDIENTES DEL TRIBUNAL -->
     <section id="view-court-cases" class="view-section">
-      <!-- Encabezado del Tribunal -->
       <div class="tribunal-header-banner">
         <div>
           <span class="case-nue-tag" id="court-header-category">Jurisdicción Especial</span>
@@ -243,40 +156,30 @@
             Juzgados de Mediación, Sustanciación y Juicio de Protección de Niños, Niñas y Adolescentes.
           </p>
         </div>
-
         <div style="display: flex; gap: 12px; align-items: center;">
           <button class="btn-main btn-outline-clean" onclick="goToHomeCourts()">
             <i class="fa-solid fa-arrow-left"></i> Volver a Tribunales
           </button>
-          
-          <!-- Botón de Nueva Causa: Solo visible para Administrativos -->
           <button class="btn-main btn-primary-clean" id="btn-admin-new-case" onclick="openNewCaseForCurrentCourt()" style="display: none;">
             <i class="fa-solid fa-plus"></i> Nueva Causa
           </button>
         </div>
       </div>
 
-      <!-- Aviso para el Público General -->
       <div id="public-notice-banner" style="background: var(--tsj-blue-subtle); border: 1.5px solid var(--tsj-blue-surface); border-left: 5px solid var(--tsj-blue-primary); padding: 14px 20px; border-radius: var(--radius-md); font-size: 0.88rem; color: var(--tsj-blue-dark); margin-bottom: 24px; display: flex; align-items: center; gap: 12px; box-shadow: var(--shadow-sm);">
         <i class="fa-solid fa-circle-info" style="font-size: 20px; color: var(--tsj-blue-primary);"></i>
         <span><strong>Modo Consulta Pública Activo:</strong> Usted puede buscar, visualizar y descargar copias oficiales de los expedientes. Las modificaciones y foliatura están reservadas a los funcionarios judiciales autorizados del TSJ.</span>
       </div>
 
-      <!-- Buscador dentro del Tribunal -->
       <div class="hero-search-wrapper">
         <i class="fa-solid fa-magnifying-glass hero-search-icon"></i>
         <input type="text" class="hero-search-input" id="court-cases-search" placeholder="Buscar en este tribunal por N° de expediente (NUE), carátula, parte procesal o cédula..." oninput="filterCourtCases(this.value)">
       </div>
 
-      <!-- Lista de Expedientes del Tribunal -->
-      <div class="cases-clean-list" id="court-cases-list">
-        <!-- Renderizado por JS -->
-      </div>
+      <div class="cases-clean-list" id="court-cases-list"></div>
     </section>
 
-    <!-- ======================================================================
-         3. VISTA: CARGAR NUEVO EXPEDIENTE (SOLO ADMINISTRATIVOS)
-         ====================================================================== -->
+    <!-- VISTA: CARGAR NUEVO EXPEDIENTE -->
     <section id="view-new-case" class="view-section">
       <div class="section-headline">
         <div>
@@ -294,43 +197,36 @@
             <label>Carátula de la Causa (Nombres de las partes y objeto del juicio)</label>
             <input type="text" id="anc-caratula" class="form-input" placeholder="Ej: PÉREZ, MARÍA C/ CORPORACIÓN NACIONAL S/ RECLAMO LOPNNA" required>
           </div>
-
           <div class="form-row">
             <div class="form-field">
               <label>Tribunal / Juzgado de Radicación</label>
               <input type="text" id="anc-juzgado" class="form-input" readonly style="background: var(--tsj-blue-subtle); font-weight: 700; color: var(--tsj-blue-dark);">
             </div>
-
             <div class="form-field">
               <label>Objeto o Pretensión Procesal</label>
               <input type="text" id="anc-objeto" class="form-input" placeholder="Ej: Régimen de Convivencia / Cobro de Prestaciones" required>
             </div>
           </div>
-
           <div class="form-row">
             <div class="form-field">
               <label>Parte Demandante / Actora / Denunciante</label>
               <input type="text" id="anc-actor" class="form-input" placeholder="Nombre completo o Institución" required>
             </div>
-
             <div class="form-field">
               <label>Parte Demandada / Imputada</label>
               <input type="text" id="anc-demandado" class="form-input" placeholder="Nombre de la contraparte" required>
             </div>
           </div>
-
           <div class="form-row">
             <div class="form-field">
               <label>Abogado Patrocinante / Defensor</label>
               <input type="text" id="anc-letrado" class="form-input" placeholder="Dr. / Dra. y N° INPREABOGADO" required>
             </div>
-
             <div class="form-field">
               <label>Monto Demandado / Cuantía ($ / Bs.)</label>
               <input type="number" id="anc-monto" class="form-input" value="0">
             </div>
           </div>
-
           <div style="margin-top: 26px; display: flex; justify-content: flex-end; gap: 14px;">
             <button type="button" class="btn-main btn-outline-clean" onclick="returnToCurrentCourt()">Cancelar</button>
             <button type="submit" class="btn-main btn-primary-clean">
@@ -340,12 +236,9 @@
         </form>
       </div>
     </section>
-
   </main>
 
-  <!-- ========================================================================
-       MODAL DE REGISTRO E INICIO DE SESIÓN
-       ======================================================================== -->
+  <!-- MODAL LOGIN -->
   <div class="modal-overlay" id="modal-login">
     <div class="modal-box" style="max-width: 540px;">
       <div class="modal-box-header">
@@ -361,10 +254,44 @@
           <button class="btn-main btn-primary-clean" type="submit"><i class="fa-solid fa-right-to-bracket"></i> Entrar al portal</button>
         </form>
         <form class="auth-form" id="register-form" hidden>
-          <label for="register-name">Nombre completo</label><input id="register-name" type="text" autocomplete="name" required>
-          <label for="register-username">Usuario</label><input id="register-username" type="text" autocomplete="username" minlength="4" required>
-          <label for="register-email">Correo electrónico</label><input id="register-email" type="email" autocomplete="email" required>
-          <label for="register-password">Contraseña</label><input id="register-password" type="password" autocomplete="new-password" minlength="8" required>
+          <div class="form-field">
+            <label for="register-name">Nombre completo *</label>
+            <input id="register-name" type="text" autocomplete="name" required placeholder="Ej: María Pérez García">
+          </div>
+          <div class="form-field">
+            <label for="register-username">Usuario *</label>
+            <input id="register-username" type="text" autocomplete="username" minlength="4" required placeholder="Ej: maria.perez">
+          </div>
+          <div class="form-field">
+            <label for="register-email">Correo electrónico *</label>
+            <input id="register-email" type="email" autocomplete="email" required placeholder="Ej: maria@ejemplo.com">
+          </div>
+          <div class="form-field">
+            <label for="register-email-confirm">Confirmar correo *</label>
+            <input id="register-email-confirm" type="email" autocomplete="email" required placeholder="Repite tu correo electrónico">
+          </div>
+          <div class="form-field">
+            <label for="register-password">Contraseña * <small class="field-hint">(mínimo 8 caracteres)</small></label>
+            <div class="password-input-wrapper">
+              <input id="register-password" type="password" autocomplete="new-password" minlength="8" required placeholder="Mínimo 8 caracteres">
+              <button type="button" class="password-toggle" onclick="togglePasswordVisibility('register-password', this)" tabindex="-1">
+                <i class="fa-solid fa-eye"></i>
+              </button>
+            </div>
+          </div>
+          <div class="form-field">
+            <label for="register-password-confirm">Confirmar contraseña *</label>
+            <div class="password-input-wrapper">
+              <input id="register-password-confirm" type="password" autocomplete="new-password" minlength="8" required placeholder="Repite tu contraseña">
+              <button type="button" class="password-toggle" onclick="togglePasswordVisibility('register-password-confirm', this)" tabindex="-1">
+                <i class="fa-solid fa-eye"></i>
+              </button>
+            </div>
+          </div>
+          <div class="form-field">
+            <label for="register-inpre">N° INPREABOGADO <small class="field-hint">(opcional)</small></label>
+            <input id="register-inpre" type="text" placeholder="Ej: 45.120">
+          </div>
           <button class="btn-main btn-primary-clean" type="submit"><i class="fa-solid fa-user-plus"></i> Registrarme</button>
         </form>
         <p class="auth-feedback" id="auth-feedback" role="alert"></p>
@@ -375,9 +302,7 @@
     </div>
   </div>
 
-  <!-- ========================================================================
-       MODAL DE FICHA 360° DEL EXPEDIENTE
-       ======================================================================== -->
+  <!-- MODAL EXPEDIENTE -->
   <div class="modal-overlay" id="modal-case-detail">
     <div class="modal-box" style="max-width: 800px;">
       <div class="modal-box-header">
@@ -387,17 +312,13 @@
         </div>
         <button class="btn-circle" onclick="closeModal('modal-case-detail')"><i class="fa-solid fa-xmark"></i></button>
       </div>
-
       <div class="modal-box-body">
-        <!-- Barra de Progreso Procesal -->
         <div class="process-step-bar">
           <div class="step-item completed" id="step-1"><div class="step-dot"><i class="fa-solid fa-check"></i></div><span>1. Demanda/Denuncia</span></div>
           <div class="step-item completed" id="step-2"><div class="step-dot"><i class="fa-solid fa-check"></i></div><span>2. Admisión/Traslado</span></div>
           <div class="step-item completed" id="step-3"><div class="step-dot"><i class="fa-solid fa-check"></i></div><span>3. Pruebas/Juicio</span></div>
           <div class="step-item active" id="step-4"><div class="step-dot">4</div><span>4. Sentencia/Fallo</span></div>
         </div>
-
-        <!-- Ficha Técnica -->
         <div style="background: var(--tsj-blue-subtle); border: 1.5px solid var(--tsj-blue-surface); border-radius: var(--radius-md); padding: 18px; margin-bottom: 22px; font-size: 0.9rem; display: flex; flex-direction: column; gap: 8px;">
           <div><strong>Tribunal / Juzgado:</strong> <span id="detail-juzgado">Juzgado de Protección LOPNNA</span></div>
           <div><strong>Parte Demandante / Actora:</strong> <span id="detail-actor">María Pérez</span></div>
@@ -405,29 +326,18 @@
           <div><strong>Abogado Defensor / Patrocinante:</strong> <span id="detail-letrado">Dr. Carlos Mendoza</span></div>
           <div><strong>Fojas Foliadas:</strong> <strong id="detail-fojas" style="color: var(--tsj-blue-primary); font-size: 1rem;">110 fs.</strong></div>
         </div>
-
-        <!-- Historial de Actuaciones -->
         <h4 style="font-family: var(--font-title); font-size: 1.05rem; margin-bottom: 14px; display: flex; align-items: center; gap: 8px; color: var(--tsj-blue-dark);">
           <i class="fa-solid fa-timeline" style="color: var(--tsj-blue-primary);"></i> Historial de Actuaciones Procesales
         </h4>
-
-        <div id="detail-history-list" style="display: flex; flex-direction: column; gap: 12px;">
-          <!-- Actuaciones -->
-        </div>
+        <div id="detail-history-list" style="display: flex; flex-direction: column; gap: 12px;"></div>
       </div>
-
       <div class="modal-box-footer">
-        <!-- Botón Eliminar: Solo para Administrativos -->
         <button class="btn-main btn-danger-clean" id="btn-admin-delete" onclick="deleteActiveCase()" style="display: none;">
           <i class="fa-solid fa-trash-can"></i> Dar de Baja
         </button>
-
-        <!-- Botón Descargar PDF: Para TODOS los usuarios -->
         <button class="btn-main btn-outline-clean" onclick="window.print()">
           <i class="fa-solid fa-download"></i> Descargar / Imprimir en PDF
         </button>
-
-        <!-- Botón Agregar Actuación: Solo para Administrativos -->
         <button class="btn-main btn-primary-clean" id="btn-admin-add-act" onclick="openAddActuationModal()" style="display: none;">
           <i class="fa-solid fa-plus"></i> Agregar Actuación
         </button>
@@ -435,9 +345,7 @@
     </div>
   </div>
 
-  <!-- ========================================================================
-       MODAL PARA AGREGAR ACTUACIÓN / FOLIAR (SOLO ADMINISTRATIVOS)
-       ======================================================================== -->
+  <!-- MODAL ACTUACIÓN -->
   <div class="modal-overlay" id="modal-add-actuation">
     <div class="modal-box" style="max-width: 560px;">
       <div class="modal-box-header">
@@ -457,17 +365,14 @@
               <option value="Sentencia Definitiva">Sentencia Definitiva</option>
             </select>
           </div>
-
           <div class="form-field" style="margin-bottom: 16px;">
             <label>Texto o Resumen de la Actuación</label>
             <textarea id="act-texto" class="form-input" rows="3" placeholder="Describa la resolución judicial o escrito..." required></textarea>
           </div>
-
           <div class="form-field" style="margin-bottom: 16px;">
             <label>Firmado Por</label>
             <input type="text" id="act-firmante" class="form-input" value="Dr. Juez de Primera Instancia TSJ" required>
           </div>
-
           <div class="modal-box-footer" style="padding: 16px 0 0 0;">
             <button type="button" class="btn-main btn-outline-clean" onclick="closeModal('modal-add-actuation')">Cancelar</button>
             <button type="submit" class="btn-main btn-primary-clean">Foliar y Guardar</button>

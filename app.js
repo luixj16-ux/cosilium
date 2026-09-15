@@ -1,15 +1,13 @@
 /**
  * ==========================================================================
- * SISTEMA DE GESTIÓN JUDICIAL - TRIBUNAL SUPREMO DE JUSTICIA (TSJ)
- * Lógica de Tribunales Venezolanos & Emblemas Realistas Vectoriales
+ * SISTEMA DE GESTION JUDICIAL - TRIBUNAL SUPREMO DE JUSTICIA (TSJ)
  * ==========================================================================
  */
 
-// ESTADO GLOBAL
 const TSJ_STATE = {
-  currentView: 'courts', // 'courts' | 'court-cases' | 'new-case'
+  currentView: 'courts',
   currentCourtId: null,
-  userRole: 'public', // 'public' (por defecto) | 'admin'
+  userRole: 'public',
   authenticated: false,
   user: null,
   theme: 'light',
@@ -21,22 +19,7 @@ const TSJ_STATE = {
       desc: 'Salas de Juicio, Mediación y Sustanciación de Protección de Niños, Niñas y Adolescentes.',
       category: 'Ley Orgánica LOPNNA',
       tags: ['Manutención', 'Régimen de Visitas', 'Colocación Familiar', 'Patria Potestad'],
-      svgEmblem: `
-        <svg viewBox="0 0 100 100" width="60" height="60" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <circle cx="50" cy="50" r="47" fill="#092C53" stroke="#D4AF37" stroke-width="2.5"/>
-          <circle cx="50" cy="50" r="40" fill="#0D47A1" stroke="#E2E8F0" stroke-width="1" stroke-dasharray="3 2"/>
-          <!-- Manos Protectoras Doradas -->
-          <path d="M22 66 C22 46 36 34 50 34 C64 34 78 46 78 66 C70 76 30 76 22 66 Z" fill="#C59B27" opacity="0.25"/>
-          <path d="M24 64 C28 44 42 36 50 44 C58 36 72 44 76 64 C64 72 36 72 24 64 Z" fill="#D4AF37"/>
-          <!-- Silueta Familia / Niño Protegido -->
-          <circle cx="50" cy="30" r="7" fill="#FFFFFF"/>
-          <circle cx="38" cy="36" r="5.5" fill="#FFFFFF" opacity="0.9"/>
-          <circle cx="62" cy="36" r="5.5" fill="#FFFFFF" opacity="0.9"/>
-          <!-- Balanza de Protección -->
-          <path d="M40 76 L60 76 M50 68 L50 76" stroke="#D4AF37" stroke-width="2"/>
-          <circle cx="50" cy="68" r="2.5" fill="#D4AF37"/>
-        </svg>
-      `
+      svgEmblem: `<svg viewBox="0 0 100 100" width="60" height="60" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="47" fill="#092C53" stroke="#D4AF37" stroke-width="2.5"/><circle cx="50" cy="50" r="40" fill="#0D47A1" stroke="#E2E8F0" stroke-width="1" stroke-dasharray="3 2"/><path d="M22 66 C22 46 36 34 50 34 C64 34 78 46 78 66 C70 76 30 76 22 66 Z" fill="#C59B27" opacity="0.25"/><path d="M24 64 C28 44 42 36 50 44 C58 36 72 44 76 64 C64 72 36 72 24 64 Z" fill="#D4AF37"/><circle cx="50" cy="30" r="7" fill="#FFFFFF"/><circle cx="38" cy="36" r="5.5" fill="#FFFFFF" opacity="0.9"/><circle cx="62" cy="36" r="5.5" fill="#FFFFFF" opacity="0.9"/><path d="M40 76 L60 76 M50 68 L50 76" stroke="#D4AF37" stroke-width="2"/><circle cx="50" cy="68" r="2.5" fill="#D4AF37"/></svg>`
     },
     {
       id: 'penal',
@@ -44,22 +27,7 @@ const TSJ_STATE = {
       desc: 'Tribunales de Control, Juicio y Ejecución Penal. Ciberdelincuencia y Delitos Graves.',
       category: 'Código Orgánico (COPP)',
       tags: ['Control de Garantías', 'Juicio Oral', 'Delitos Informáticos', 'Ejecución Penal'],
-      svgEmblem: `
-        <svg viewBox="0 0 100 100" width="60" height="60" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <circle cx="50" cy="50" r="47" fill="#061C38" stroke="#D4AF37" stroke-width="2.5"/>
-          <!-- Escudo Táctico de Acero y Oro -->
-          <path d="M50 16 C32 16 24 24 24 42 C24 68 50 82 50 82 C50 82 76 68 76 42 C76 24 68 16 50 16 Z" fill="#0D47A1" stroke="#D4AF37" stroke-width="2"/>
-          <!-- Espada de la Ley Cruzada -->
-          <line x1="28" y1="28" x2="72" y2="72" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round"/>
-          <line x1="32" y1="24" x2="24" y2="32" stroke="#D4AF37" stroke-width="3"/>
-          <circle x="72" y="72" r="3" fill="#D4AF37"/>
-          <!-- Mazo Judicial (Gavel) -->
-          <line x1="72" y1="28" x2="28" y2="72" stroke="#D4AF37" stroke-width="3" stroke-linecap="round"/>
-          <rect x="62" y="22" width="16" height="10" rx="3" fill="#C59B27" stroke="#FFFFFF" stroke-width="1.2" transform="rotate(45 70 27)"/>
-          <!-- Balanza Central -->
-          <circle cx="50" cy="50" r="6" fill="#D4AF37"/>
-        </svg>
-      `
+      svgEmblem: `<svg viewBox="0 0 100 100" width="60" height="60" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="47" fill="#061C38" stroke="#D4AF37" stroke-width="2.5"/><path d="M50 16 C32 16 24 24 24 42 C24 68 50 82 50 82 C50 82 76 68 76 42 C76 24 68 16 50 16 Z" fill="#0D47A1" stroke="#D4AF37" stroke-width="2"/><line x1="28" y1="28" x2="72" y2="72" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round"/><line x1="32" y1="24" x2="24" y2="32" stroke="#D4AF37" stroke-width="3"/><circle x="72" y="72" r="3" fill="#D4AF37"/><line x1="72" y1="28" x2="28" y2="72" stroke="#D4AF37" stroke-width="3" stroke-linecap="round"/><rect x="62" y="22" width="16" height="10" rx="3" fill="#C59B27" stroke="#FFFFFF" stroke-width="1.2" transform="rotate(45 70 27)"/><circle cx="50" cy="50" r="6" fill="#D4AF37"/></svg>`
     },
     {
       id: 'violencia',
@@ -67,20 +35,7 @@ const TSJ_STATE = {
       desc: 'Juzgados Especiales de Control, Audiencias y Medidas Cautelares de Protección a la Mujer.',
       category: 'Ley Especial VCM',
       tags: ['Medidas de Protección', 'Violencia Psicológica', 'Feminicidio', 'Medidas Cautelares'],
-      svgEmblem: `
-        <svg viewBox="0 0 100 100" width="60" height="60" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <circle cx="50" cy="50" r="47" fill="#3B0764" stroke="#D4AF37" stroke-width="2.5"/>
-          <circle cx="50" cy="50" r="40" fill="#581C87" stroke="#F3E8FF" stroke-width="1"/>
-          <!-- Lazo / Flor de Protección Púrpura y Oro -->
-          <path d="M50 18 C38 18 30 28 30 42 C30 62 50 78 50 78 C50 78 70 62 70 42 C70 28 62 18 50 18 Z" fill="#7E22CE" stroke="#D4AF37" stroke-width="1.8"/>
-          <!-- Silueta Femenina y Símbolo de Equidad -->
-          <circle cx="50" cy="38" r="9" fill="#FFFFFF"/>
-          <path d="M38 60 C38 48 44 44 50 44 C56 44 62 48 62 60 Z" fill="#FFFFFF"/>
-          <circle cx="50" cy="80" r="3" fill="#D4AF37"/>
-          <line x1="50" y1="74" x2="50" y2="86" stroke="#D4AF37" stroke-width="2"/>
-          <line x1="44" y1="80" x2="56" y2="80" stroke="#D4AF37" stroke-width="2"/>
-        </svg>
-      `
+      svgEmblem: `<svg viewBox="0 0 100 100" width="60" height="60" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="47" fill="#3B0764" stroke="#D4AF37" stroke-width="2.5"/><circle cx="50" cy="50" r="40" fill="#581C87" stroke="#F3E8FF" stroke-width="1"/><path d="M50 18 C38 18 30 28 30 42 C30 62 50 78 50 78 C50 78 70 62 70 42 C70 28 62 18 50 18 Z" fill="#7E22CE" stroke="#D4AF37" stroke-width="1.8"/><circle cx="50" cy="38" r="9" fill="#FFFFFF"/><path d="M38 60 C38 48 44 44 50 44 C56 44 62 48 62 60 Z" fill="#FFFFFF"/><circle cx="50" cy="80" r="3" fill="#D4AF37"/><line x1="50" y1="74" x2="50" y2="86" stroke="#D4AF37" stroke-width="2"/><line x1="44" y1="80" x2="56" y2="80" stroke="#D4AF37" stroke-width="2"/></svg>`
     },
     {
       id: 'civil',
@@ -88,24 +43,7 @@ const TSJ_STATE = {
       desc: 'Juzgados de Primera Instancia y Municipio. Contratos, Hipotecas y Sociedades Mercantiles.',
       category: 'Código de Proc. Civil',
       tags: ['Cobro de Bolívares', 'Hipotecas', 'Sociedades Mercantiles', 'Tránsito'],
-      svgEmblem: `
-        <svg viewBox="0 0 100 100" width="60" height="60" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <circle cx="50" cy="50" r="47" fill="#092C53" stroke="#D4AF37" stroke-width="2.5"/>
-          <!-- Frontispicio y Columnas Romanas Clásicas -->
-          <polygon points="50,18 20,32 80,32" fill="#D4AF37" stroke="#FFFFFF" stroke-width="1"/>
-          <rect x="24" y="32" width="52" height="4" fill="#C59B27"/>
-          <!-- 4 Columnas -->
-          <rect x="28" y="36" width="6" height="34" fill="#FFFFFF"/>
-          <rect x="42" y="36" width="6" height="34" fill="#FFFFFF"/>
-          <rect x="52" y="36" width="6" height="34" fill="#FFFFFF"/>
-          <rect x="66" y="36" width="6" height="34" fill="#FFFFFF"/>
-          <!-- Base -->
-          <rect x="20" y="70" width="60" height="6" fill="#D4AF37"/>
-          <rect x="16" y="76" width="68" height="4" fill="#C59B27"/>
-          <!-- Pergamino con Sello de Lacre -->
-          <circle cx="50" cy="52" r="7" fill="#DC2626" stroke="#D4AF37" stroke-width="1.5"/>
-        </svg>
-      `
+      svgEmblem: `<svg viewBox="0 0 100 100" width="60" height="60" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="47" fill="#092C53" stroke="#D4AF37" stroke-width="2.5"/><polygon points="50,18 20,32 80,32" fill="#D4AF37" stroke="#FFFFFF" stroke-width="1"/><rect x="24" y="32" width="52" height="4" fill="#C59B27"/><rect x="28" y="36" width="6" height="34" fill="#FFFFFF"/><rect x="42" y="36" width="6" height="34" fill="#FFFFFF"/><rect x="52" y="36" width="6" height="34" fill="#FFFFFF"/><rect x="66" y="36" width="6" height="34" fill="#FFFFFF"/><rect x="20" y="70" width="60" height="6" fill="#D4AF37"/><rect x="16" y="76" width="68" height="4" fill="#C59B27"/><circle cx="50" cy="52" r="7" fill="#DC2626" stroke="#D4AF37" stroke-width="1.5"/></svg>`
     },
     {
       id: 'laboral',
@@ -113,23 +51,7 @@ const TSJ_STATE = {
       desc: 'Juzgados de Sustanciación, Mediación y Ejecución Laboral. Reclamos e Indemnizaciones.',
       category: 'Ley Orgánica (LOTTT)',
       tags: ['Prestaciones Sociales', 'Calificación de Despido', 'Juicio Laboral', 'Agrario'],
-      svgEmblem: `
-        <svg viewBox="0 0 100 100" width="60" height="60" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <circle cx="50" cy="50" r="47" fill="#061C38" stroke="#D4AF37" stroke-width="2.5"/>
-          <!-- Engranaje Industrial Dorado -->
-          <circle cx="50" cy="50" r="32" fill="#0D47A1" stroke="#D4AF37" stroke-width="3" stroke-dasharray="14 5"/>
-          <circle cx="50" cy="50" r="22" fill="#092C53" stroke="#D4AF37" stroke-width="2"/>
-          <!-- Espiga de Trigo / Campo Agrario -->
-          <path d="M40 76 C40 46 50 30 60 22" stroke="#D4AF37" stroke-width="3" stroke-linecap="round"/>
-          <circle cx="58" cy="24" r="3" fill="#D4AF37"/>
-          <circle cx="52" cy="32" r="3" fill="#D4AF37"/>
-          <circle cx="48" cy="42" r="3" fill="#D4AF37"/>
-          <circle cx="44" cy="54" r="3" fill="#D4AF37"/>
-          <!-- Balanza de la Justicia Social -->
-          <rect x="48" y="34" width="4" height="26" fill="#FFFFFF"/>
-          <line x1="34" y1="40" x2="66" y2="40" stroke="#FFFFFF" stroke-width="2"/>
-        </svg>
-      `
+      svgEmblem: `<svg viewBox="0 0 100 100" width="60" height="60" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="47" fill="#061C38" stroke="#D4AF37" stroke-width="2.5"/><circle cx="50" cy="50" r="32" fill="#0D47A1" stroke="#D4AF37" stroke-width="3" stroke-dasharray="14 5"/><circle cx="50" cy="50" r="22" fill="#092C53" stroke="#D4AF37" stroke-width="2"/><path d="M40 76 C40 46 50 30 60 22" stroke="#D4AF37" stroke-width="3" stroke-linecap="round"/><circle cx="58" cy="24" r="3" fill="#D4AF37"/><circle cx="52" cy="32" r="3" fill="#D4AF37"/><circle cx="48" cy="42" r="3" fill="#D4AF37"/><circle cx="44" cy="54" r="3" fill="#D4AF37"/><rect x="48" y="34" width="4" height="26" fill="#FFFFFF"/><line x1="34" y1="40" x2="66" y2="40" stroke="#FFFFFF" stroke-width="2"/></svg>`
     },
     {
       id: 'contencioso',
@@ -137,23 +59,7 @@ const TSJ_STATE = {
       desc: 'Tribunales Superiores Estadales y Nacionales. Recursos de Nulidad y Reparaciones Fiscales.',
       category: 'Poder Público (LOJCA)',
       tags: ['Nulidad de Actos', 'Reparos Tributarios', 'Contratos Públicos', 'SENIAT'],
-      svgEmblem: `
-        <svg viewBox="0 0 100 100" width="60" height="60" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <circle cx="50" cy="50" r="47" fill="#092C53" stroke="#D4AF37" stroke-width="2.5"/>
-          <!-- Capitolio / Cúpula del Estado -->
-          <path d="M50 18 C32 18 28 32 28 42 L72 42 C72 32 68 18 50 18 Z" fill="#D4AF37"/>
-          <circle cx="50" cy="14" r="3" fill="#FFFFFF"/>
-          <!-- Columnas del Palacio de Justicia -->
-          <rect x="30" y="44" width="40" height="4" fill="#C59B27"/>
-          <rect x="32" y="48" width="5" height="24" fill="#FFFFFF"/>
-          <rect x="42" y="48" width="5" height="24" fill="#FFFFFF"/>
-          <rect x="53" y="48" width="5" height="24" fill="#FFFFFF"/>
-          <rect x="63" y="48" width="5" height="24" fill="#FFFFFF"/>
-          <rect x="26" y="72" width="48" height="6" fill="#D4AF37"/>
-          <!-- Escudo de Control Fiscal -->
-          <circle cx="50" cy="60" r="6" fill="#0D47A1" stroke="#D4AF37" stroke-width="1.5"/>
-        </svg>
-      `
+      svgEmblem: `<svg viewBox="0 0 100 100" width="60" height="60" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="47" fill="#092C53" stroke="#D4AF37" stroke-width="2.5"/><path d="M50 18 C32 18 28 32 28 42 L72 42 C72 32 68 18 50 18 Z" fill="#D4AF37"/><circle cx="50" cy="14" r="3" fill="#FFFFFF"/><rect x="30" y="44" width="40" height="4" fill="#C59B27"/><rect x="32" y="48" width="5" height="24" fill="#FFFFFF"/><rect x="42" y="48" width="5" height="24" fill="#FFFFFF"/><rect x="53" y="48" width="5" height="24" fill="#FFFFFF"/><rect x="63" y="48" width="5" height="24" fill="#FFFFFF"/><rect x="26" y="72" width="48" height="6" fill="#D4AF37"/><circle cx="50" cy="60" r="6" fill="#0D47A1" stroke="#D4AF37" stroke-width="1.5"/></svg>`
     },
     {
       id: 'tsj_salas',
@@ -161,42 +67,20 @@ const TSJ_STATE = {
       desc: 'Sala Constitucional, Casación Penal, Casación Civil, Casación Social y Político-Administrativa.',
       category: 'Máxima Instancia TSJ',
       tags: ['Recurso de Casación', 'Interpretación Constitucional', 'Avocamiento', 'Plenaria'],
-      svgEmblem: `
-        <svg viewBox="0 0 100 100" width="60" height="60" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <circle cx="50" cy="50" r="47" fill="#061C38" stroke="#D4AF37" stroke-width="3"/>
-          <circle cx="50" cy="50" r="40" fill="#0D47A1" stroke="#D4AF37" stroke-width="1.5" stroke-dasharray="3 1.5"/>
-          <!-- Códice Constitucional con Sello de Oro -->
-          <rect x="34" y="24" width="32" height="44" rx="3" fill="#FFFFFF" stroke="#D4AF37" stroke-width="2"/>
-          <line x1="40" y1="32" x2="60" y2="32" stroke="#092C53" stroke-width="2"/>
-          <line x1="40" y1="40" x2="60" y2="40" stroke="#092C53" stroke-width="2"/>
-          <line x1="40" y1="48" x2="54" y2="48" stroke="#092C53" stroke-width="2"/>
-          <!-- 8 Estrellas Doradas TSJ -->
-          <circle cx="50" cy="58" r="5" fill="#D4AF37"/>
-          <polygon points="50,74 52,78 57,78 53,81 55,86 50,83 45,86 47,81 43,78 48,78" fill="#D4AF37"/>
-        </svg>
-      `
+      svgEmblem: `<svg viewBox="0 0 100 100" width="60" height="60" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="47" fill="#061C38" stroke="#D4AF37" stroke-width="3"/><circle cx="50" cy="50" r="40" fill="#0D47A1" stroke="#D4AF37" stroke-width="1.5" stroke-dasharray="3 1.5"/><rect x="34" y="24" width="32" height="44" rx="3" fill="#FFFFFF" stroke="#D4AF37" stroke-width="2"/><line x1="40" y1="32" x2="60" y2="32" stroke="#092C53" stroke-width="2"/><line x1="40" y1="40" x2="60" y2="40" stroke="#092C53" stroke-width="2"/><line x1="40" y1="48" x2="54" y2="48" stroke="#092C53" stroke-width="2"/><circle cx="50" cy="58" r="5" fill="#D4AF37"/><polygon points="50,74 52,78 57,78 53,81 55,86 50,83 45,86 47,81 43,78 48,78" fill="#D4AF37"/></svg>`
     }
   ],
   cases: []
 };
 
-// BASE DE DATOS DE EXPEDIENTES POR TRIBUNALES VENEZOLANOS
 const INITIAL_TSJ_CASES = [
-  // LOPNNA
   {
-    id: 'CASE-LOPNNA-1',
-    courtId: 'lopnna',
-    nue: 'EXP-2026-00104-LOPNNA',
+    id: 'CASE-LOPNNA-1', courtId: 'lopnna', nue: 'EXP-2026-00104-LOPNNA',
     caratula: 'PÉREZ, MARÍA C/ RAMÍREZ, JUAN S/ RÉGIMEN DE CONVIVENCIA FAMILIAR Y OBLIGACIÓN DE MANUTENCIÓN',
     juzgado: 'Tribunal Primero de Primera Instancia de Protección LOPNNA (Área Metropolitana)',
     objeto: 'Fijación de Cuota de Manutención y Régimen de Visitas',
-    actor: 'María Pérez (C.I. V-18.450.210)',
-    demandado: 'Juan Ramírez (C.I. V-16.890.114)',
-    letrado: 'Dra. Carmen Silva (INPREABOGADO N° 45.120)',
-    monto: 0,
-    estado: 'En Trámite',
-    fojas: 84,
-    fecha: '2026-08-28',
+    actor: 'María Pérez (C.I. V-18.450.210)', demandado: 'Juan Ramírez (C.I. V-16.890.114)',
+    letrado: 'Dra. Carmen Silva (INPREABOGADO N° 45.120)', monto: 0, estado: 'En Trámite', fojas: 84, fecha: '2026-08-28',
     actuaciones: [
       { fecha: '12/03/2026', tipo: 'Demanda Inicial LOPNNA', texto: 'Presentación formal de solicitud de alimentos y convivencia familiar.', firmante: 'Dra. Carmen Silva', fojas: '1-20' },
       { fecha: '25/03/2026', tipo: 'Medida Cautelar de Manutención', texto: 'Fíjase cuota provisional de manutención del 30% del ingreso mensual.', firmante: 'Juez de Protección LOPNNA', fojas: '21-28' },
@@ -204,146 +88,99 @@ const INITIAL_TSJ_CASES = [
     ]
   },
   {
-    id: 'CASE-LOPNNA-2',
-    courtId: 'lopnna',
-    nue: 'EXP-2026-00188-LOPNNA',
+    id: 'CASE-LOPNNA-2', courtId: 'lopnna', nue: 'EXP-2026-00188-LOPNNA',
     caratula: 'CONSEJO DE PROTECCIÓN S/ MEDIDA DE ABRIGO Y COLOCACIÓN FAMILIAR DE N.N.',
     juzgado: 'Tribunal Segundo de Mediación y Sustanciación LOPNNA',
     objeto: 'Homologación de Medida de Protección de Abrigo',
     actor: 'Consejo Municipal de Protección de Niños y Adolescentes',
     demandado: 'Progenitores de Origen',
-    letrado: 'Defensor Público de Niños, Niñas y Adolescentes',
-    monto: 0,
-    estado: 'Autos para Sentencia',
-    fojas: 140,
-    fecha: '2026-08-30',
+    letrado: 'Defensor Público de Niños, Niños y Adolescentes',
+    monto: 0, estado: 'Autos para Sentencia', fojas: 140, fecha: '2026-08-30',
     actuaciones: [
       { fecha: '10/01/2026', tipo: 'Medida de Abrigo', texto: 'Remisión de expediente administrativo con solicitud de colocación familiar sustituta.', firmante: 'Consejero de Protección', fojas: '1-45' },
       { fecha: '30/08/2026', tipo: 'Pase a Sentencia', texto: 'Autos para decisión de homologación de colocación definitiva.', firmante: 'Juez de Protección', fojas: '120-140' }
     ]
   },
-
-  // PENAL
   {
-    id: 'CASE-PENAL-1',
-    courtId: 'penal',
-    nue: 'EXP-2026-00215-PENAL',
+    id: 'CASE-PENAL-1', courtId: 'penal', nue: 'EXP-2026-00215-PENAL',
     caratula: 'MINISTERIO PÚBLICO C/ GÓMEZ, LUIS S/ DELITOS INFORMÁTICOS Y DEFRAUDACIÓN BANCARIA',
     juzgado: 'Juzgado Tercero de Primera Instancia en Funciones de Control Penal',
     objeto: 'Acceso Indebido y Fraude Electrónico',
     actor: 'Ministerio Público (Fiscalía 8° con Competencia en Delitos Informáticos)',
     demandado: 'Luis Gómez (C.I. V-22.104.990)',
     letrado: 'Dr. Roberto Mendoza (Defensor Público)',
-    monto: 18500000,
-    estado: 'Apertura a Prueba',
-    fojas: 260,
-    fecha: '2026-08-31',
+    monto: 18500000, estado: 'Apertura a Prueba', fojas: 260, fecha: '2026-08-31',
     actuaciones: [
       { fecha: '14/02/2026', tipo: 'Acusación Fiscal', texto: 'Presentación formal de acusación por vulneración de sistemas y desvío de fondos.', firmante: 'Fiscalía 8° TSJ', fojas: '1-60' },
       { fecha: '20/05/2026', tipo: 'Audiencia Preliminar', texto: 'Admisión total de la acusación fiscal y auto de apertura a juicio oral.', firmante: 'Juez de Control Penal', fojas: '61-110' },
       { fecha: '31/08/2026', tipo: 'Prueba Digital Incorporada', texto: 'Informe de extracción de evidencia digital y trazabilidad de cuentas.', firmante: 'División contra Delitos Informáticos', fojas: '111-260' }
     ]
   },
-
-  // VIOLENCIA CONTRA LA MUJER
   {
-    id: 'CASE-VIOLENCIA-1',
-    courtId: 'violencia',
-    nue: 'EXP-2026-00302-VCM',
+    id: 'CASE-VCM-1', courtId: 'violencia', nue: 'EXP-2026-00302-VCM',
     caratula: 'MINISTERIO PÚBLICO C/ MORALES, PEDRO S/ VIOLENCIA PSICOLÓGICA Y AMENAZAS',
     juzgado: 'Tribunal Especial Primero de Primera Instancia en Funciones de Control y Audiencias VCM',
     objeto: 'Medidas de Protección y Seguridad a la Víctima',
     actor: 'Ministerio Público (Fiscalía 45° VCM) / Víctima Ciudadana',
     demandado: 'Pedro Morales (C.I. V-15.320.100)',
     letrado: 'Dra. Sonia Delgado (Abogada Privada)',
-    monto: 0,
-    estado: 'En Trámite',
-    fojas: 95,
-    fecha: '2026-08-29',
+    monto: 0, estado: 'En Trámite', fojas: 95, fecha: '2026-08-29',
     actuaciones: [
       { fecha: '05/04/2026', tipo: 'Imposición de Medidas de Seguridad', texto: 'Orden de desalojo del agresor y prohibición absoluta de acercamiento.', firmante: 'Jueza Especial VCM', fojas: '1-30' },
       { fecha: '29/08/2026', tipo: 'Informe Psiquiátrico Forense', texto: 'Evaluación de daño psicológico y riesgo de la víctima.', firmante: 'Médico Forense TSJ', fojas: '31-95' }
     ]
   },
-
-  // CIVIL Y MERCANTIL
   {
-    id: 'CASE-CIVIL-1',
-    courtId: 'civil',
-    nue: 'EXP-2026-00440-CIVIL',
+    id: 'CASE-CIVIL-1', courtId: 'civil', nue: 'EXP-2026-00440-CIVIL',
     caratula: 'INVERSIONES CARACAS C.A. C/ DISTRIBUIDORA ORIENTAL S.R.L. S/ CUMPLIMIENTO DE CONTRATO',
     juzgado: 'Juzgado Segundo de Primera Instancia en lo Civil, Mercantil y del Tránsito',
     objeto: 'Cobro de Bolívares y Resolución de Contrato de Suministro',
     actor: 'Inversiones Caracas C.A. (RIF J-30495820-1)',
     demandado: 'Distribuidora Oriental S.R.L.',
     letrado: 'Dr. Alejandro Varela (INPREABOGADO N° 34.890)',
-    monto: 45000000,
-    estado: 'Sentencia Dictada',
-    fojas: 188,
-    fecha: '2026-08-20',
+    monto: 45000000, estado: 'Sentencia Dictada', fojas: 188, fecha: '2026-08-20',
     actuaciones: [
       { fecha: '15/09/2025', tipo: 'Libelo de Demanda', texto: 'Demanda mercantil por incumplimiento de entrega y cobro de factura aceptada.', firmante: 'Dr. Alejandro Varela', fojas: '1-35' },
       { fecha: '20/08/2026', tipo: 'Sentencia Definitiva', texto: 'Se declara con lugar la demanda mercantil condenando al pago de la acreencia con indexación.', firmante: 'Juez de Primera Instancia Civil', fojas: '150-188' }
     ]
   },
-
-  // LABORAL
   {
-    id: 'CASE-LABORAL-1',
-    courtId: 'laboral',
-    nue: 'EXP-2026-00512-LAB',
+    id: 'CASE-LAB-1', courtId: 'laboral', nue: 'EXP-2026-00512-LAB',
     caratula: 'HERRERA, JOSÉ C/ EMPRESA METALÚRGICA NACIONAL S.A. S/ COBRO DE PRESTACIONES SOCIALES',
     juzgado: 'Juzgado Cuarto de Sustanciación, Mediación y Ejecución del Trabajo',
     objeto: 'Reclamo de Prestaciones Sociales, Vacaciones y Salarios Caídos',
     actor: 'José Herrera (C.I. V-14.890.320)',
     demandado: 'Empresa Metalúrgica Nacional S.A.',
     letrado: 'Dra. Silvina Romero (INPREABOGADO N° 55.320)',
-    monto: 12000000,
-    estado: 'En Trámite',
-    fojas: 75,
-    fecha: '2026-08-25',
+    monto: 12000000, estado: 'En Trámite', fojas: 75, fecha: '2026-08-25',
     actuaciones: [
       { fecha: '01/04/2026', tipo: 'Demanda Laboral', texto: 'Solicitud de calificación de despido e indemnización por antigüedad (LOTTT).', firmante: 'Dra. Silvina Romero', fojas: '1-25' },
       { fecha: '25/08/2026', tipo: 'Acta de Audiencia Preliminar', texto: 'Celebración de sesión de mediación. No habiendo acuerdo, pasa a fase de juicio.', firmante: 'Juez de Mediación Laboral', fojas: '26-75' }
     ]
   },
-
-  // CONTENCIOSO ADMINISTRATIVO
   {
-    id: 'CASE-CONT-1',
-    courtId: 'contencioso',
-    nue: 'EXP-2026-00609-CONT',
+    id: 'CASE-CONT-1', courtId: 'contencioso', nue: 'EXP-2026-00609-CONT',
     caratula: 'CÁMARA DE COMERCIO C/ SERVICIO MUNICIPAL DE ADMINISTRACIÓN TRIBUTARIA S/ RECURSO CONTENCIOSO',
     juzgado: 'Juzgado Superior Contencioso Administrativo y Tributario',
     objeto: 'Recurso Contencioso Tributario de Anulación de Acto Administrativo',
     actor: 'Cámara de Comercio Regional',
     demandado: 'Administración Tributaria Municipal',
     letrado: 'Dr. Lucas Pellegrini (INPREABOGADO N° 60.102)',
-    monto: 0,
-    estado: 'Apertura a Prueba',
-    fojas: 310,
-    fecha: '2026-08-26',
+    monto: 0, estado: 'Apertura a Prueba', fojas: 310, fecha: '2026-08-26',
     actuaciones: [
       { fecha: '10/02/2026', tipo: 'Recurso Contencioso', texto: 'Solicitud de nulidad absoluta de reparo fiscal por violación del principio de legalidad.', firmante: 'Dr. Lucas Pellegrini', fojas: '1-80' },
       { fecha: '26/08/2026', tipo: 'Auto de Admisión y Lapso Probatorio', texto: 'Se abre el lapso de evacuación de pruebas periciales contables.', firmante: 'Juez Superior Contencioso', fojas: '81-310' }
     ]
   },
-
-  // SALAS TSJ
   {
-    id: 'CASE-TSJ-1',
-    courtId: 'tsj_salas',
-    nue: 'EXP-2026-00701-SCON',
+    id: 'CASE-TSJ-1', courtId: 'tsj_salas', nue: 'EXP-2026-00701-SCON',
     caratula: 'ACCIÓN POPULAR S/ RECURSO DE INTERPRETACIÓN CONSTITUCIONAL ART. 26 CRBV',
     juzgado: 'Sala Constitucional del Tribunal Supremo de Justicia',
     objeto: 'Interpretación de Alcance de Tutela Judicial Efectiva y Digitalización',
     actor: 'Colegio de Abogados de Venezuela',
     demandado: 'Interés Público General',
     letrado: 'Dr. Magistrado Ponente',
-    monto: 0,
-    estado: 'Autos para Sentencia',
-    fojas: 520,
-    fecha: '2026-09-01',
+    monto: 0, estado: 'Autos para Sentencia', fojas: 520, fecha: '2026-09-01',
     actuaciones: [
       { fecha: '10/01/2026', tipo: 'Solicitud Constitucional', texto: 'Recurso de interpretación sobre validez probatoria de firmas electrónicas en expedientes.', firmante: 'Colegio de Abogados', fojas: '1-120' },
       { fecha: '01/09/2026', tipo: 'Fijación de Ponencia', texto: 'Designación de Ponente y pase a Sala Plena para decisión vinculante.', firmante: 'Presidente Sala Constitucional TSJ', fojas: '121-520' }
@@ -351,87 +188,61 @@ const INITIAL_TSJ_CASES = [
   }
 ];
 
-// INICIALIZACIÓN
 const VENEZUELAN_LAWS = {
-  constitucional: {
-    label: 'Constitucional',
-    items: [
-      { title: 'Constitución de la República Bolivariana de Venezuela', meta: 'CRBV • Art. 1-188' },
-      { title: 'Ley Orgánica del Poder Electoral', meta: 'LOPE • Art. 1-220' },
-      { title: 'Ley Orgánica de Procesos Electorales', meta: 'LOPE • Art. 1-290' }
-    ]
-  },
-  civil: {
-    label: 'Civil y Mercantil',
-    items: [
-      { title: 'Código Civil', meta: 'C.C. • Art. 1-1.200' },
-      { title: 'Código de Comercio', meta: 'C. Comercio • Art. 1-890' },
-      { title: 'Ley de Propiedad Horizontal', meta: 'LPH • Art. 1-140' }
-    ]
-  },
-  penal: {
-    label: 'Penal',
-    items: [
-      { title: 'Código Orgánico Procesal Penal', meta: 'COPP • Art. 1-500' },
-      { title: 'Ley contra la Corrupción', meta: 'LCC • Art. 1-180' },
-      { title: 'Ley de Delitos Informáticos', meta: 'LDI • Art. 1-160' }
-    ]
-  },
-  laboral: {
-    label: 'Laboral',
-    items: [
-      { title: 'Ley Orgánica del Trabajo', meta: 'LOT • Art. 1-280' },
-      { title: 'Ley del Estatuto del Trabajo', meta: 'LETT • Art. 1-320' },
-      { title: 'Ley de Seguridad Social', meta: 'LSS • Art. 1-260' }
-    ]
-  },
-  administrativo: {
-    label: 'Administrativo',
-    items: [
-      { title: 'Ley Orgánica de Procedimientos Administrativos', meta: 'LOPA • Art. 1-240' },
-      { title: 'Ley de Contrataciones Públicas', meta: 'LCP • Art. 1-200' },
-      { title: 'Ley Orgánica de la Administración Pública', meta: 'LOAP • Art. 1-180' }
-    ]
-  }
+  constitucional: { label: 'Constitucional', items: [
+    { title: 'Constitución de la República Bolivariana de Venezuela', meta: 'CRBV • Art. 1-188' },
+    { title: 'Ley Orgánica del Poder Electoral', meta: 'LOPE • Art. 1-220' },
+    { title: 'Ley Orgánica de Procesos Electorales', meta: 'LOPE • Art. 1-290' }
+  ]},
+  civil: { label: 'Civil y Mercantil', items: [
+    { title: 'Código Civil', meta: 'C.C. • Art. 1-1.200' },
+    { title: 'Código de Comercio', meta: 'C. Comercio • Art. 1-890' },
+    { title: 'Ley de Propiedad Horizontal', meta: 'LPH • Art. 1-140' }
+  ]},
+  penal: { label: 'Penal', items: [
+    { title: 'Código Orgánico Procesal Penal', meta: 'COPP • Art. 1-500' },
+    { title: 'Ley contra la Corrupción', meta: 'LCC • Art. 1-180' },
+    { title: 'Ley de Delitos Informáticos', meta: 'LDI • Art. 1-160' }
+  ]},
+  laboral: { label: 'Laboral', items: [
+    { title: 'Ley Orgánica del Trabajo', meta: 'LOT • Art. 1-280' },
+    { title: 'Ley del Estatuto del Trabajo', meta: 'LETT • Art. 1-320' },
+    { title: 'Ley de Seguridad Social', meta: 'LSS • Art. 1-260' }
+  ]},
+  administrativo: { label: 'Administrativo', items: [
+    { title: 'Ley Orgánica de Procedimientos Administrativos', meta: 'LOPA • Art. 1-240' },
+    { title: 'Ley de Contrataciones Públicas', meta: 'LCP • Art. 1-200' },
+    { title: 'Ley Orgánica de la Administración Pública', meta: 'LOAP • Art. 1-180' }
+  ]}
 };
 
 const LEGAL_NEWS = [
-  {
-    tag: 'Reforma normativa',
-    title: 'Ajuste de plazos procesales en protección de menores',
-    summary: 'Se reforzaron los tiempos de trámite para medidas cautelares y seguimiento de régimen de convivencia, con prioridad a la protección integral de la infancia.',
-    date: '01 sep 2026',
-    impact: 'Tribunales de Protección',
-    image: 'https://images.unsplash.com/photo-1589829545856-d10d557cf95f?auto=format&fit=crop&w=1200&q=85'
-  },
-  {
-    tag: 'Actualización legal',
-    title: 'Modificación de criterios en ejecuciones tributarias',
-    summary: 'Se publicaron nuevos lineamientos para la revisión de pagos, intereses y términos de ejecución en procedimientos contencioso administrativos y fiscales.',
-    date: '26 ago 2026',
-    impact: 'Contencioso Administrativo',
-    image: 'https://images.unsplash.com/photo-1505664194779-8beaceb93744?auto=format&fit=crop&w=1200&q=85'
-  },
-  {
-    tag: 'Boletín judicial',
-    title: 'Revisión de medidas cautelares por violencia contra la mujer',
-    summary: 'Se ampliaron las directrices para la rapidez de protección, evaluación de riesgo y coordinación entre tribunales y servicios de atención.',
-    date: '18 ago 2026',
-    impact: 'Violencia de Género',
-    image: 'https://images.unsplash.com/photo-1450101499163-c8848c66ca85?auto=format&fit=crop&w=1200&q=85'
-  },
-  {
-    tag: 'Análisis normativo',
-    title: 'Nuevas directrices para expedientes digitales y firma electrónica',
-    summary: 'El sistema judicial incorpora criterios más claros para la digitalización, validación y trazabilidad de documentos electrónicos en todas las salas.',
-    date: '09 ago 2026',
-    impact: 'Sala Constitucional',
-    image: 'https://images.unsplash.com/photo-1555374018-13a8994ab246?auto=format&fit=crop&w=1200&q=85'
-  }
+  { tag: 'Reforma normativa', title: 'Ajuste de plazos procesales en protección de menores', summary: 'Se reforzaron los tiempos de trámite para medidas cautelares y seguimiento de régimen de convivencia, con prioridad a la protección integral de la infancia.', date: '01 sep 2026', impact: 'Tribunales de Protección' },
+  { tag: 'Actualización legal', title: 'Modificación de criterios en ejecuciones tributarias', summary: 'Se publicaron nuevos lineamientos para la revisión de pagos, intereses y términos de ejecución en procedimientos contencioso administrativos y fiscales.', date: '26 ago 2026', impact: 'Contencioso Administrativo' },
+  { tag: 'Boletín judicial', title: 'Revisión de medidas cautelares por violencia contra la mujer', summary: 'Se ampliaron las directrices para la rapidez de protección, evaluación de riesgo y coordinación entre tribunales y servicios de atención.', date: '18 ago 2026', impact: 'Violencia de Género' },
+  { tag: 'Análisis normativo', title: 'Nuevas directrices para expedientes digitales y firma electrónica', summary: 'El sistema judicial incorpora criterios más claros para la digitalización, validación y trazabilidad de documentos electrónicos en todas las salas.', date: '09 ago 2026', impact: 'Sala Constitucional' }
 ];
 
 let newsCarouselIndex = 0;
 let newsCarouselTimer;
+
+// --- UTILITIES ---
+
+function debounce(fn, ms) {
+  let timer;
+  return function (...args) {
+    clearTimeout(timer);
+    timer = setTimeout(() => fn.apply(this, args), ms);
+  };
+}
+
+function limitToasts() {
+  const stack = document.getElementById('toast-stack');
+  if (!stack) return;
+  while (stack.children.length > 4) stack.removeChild(stack.firstChild);
+}
+
+// --- NEWS CAROUSEL ---
 
 function renderLegalNews() {
   const newsContainer = document.getElementById('news-list-container');
@@ -439,7 +250,6 @@ function renderLegalNews() {
 
   newsContainer.innerHTML = LEGAL_NEWS.map((item, index) => `
     <article class="news-item ${index === newsCarouselIndex ? 'active' : ''}" aria-hidden="${index !== newsCarouselIndex}">
-      <img class="news-image" src="${item.image}" alt="Imagen relacionada con ${item.title}" loading="${index === 0 ? 'eager' : 'lazy'}">
       <div class="news-story">
         <div class="news-topline"><span class="news-pill">${item.tag}</span><span class="news-date">${item.date}</span></div>
         <h3>${item.title}</h3><p>${item.summary}</p>
@@ -450,20 +260,20 @@ function renderLegalNews() {
 
   const dotsContainer = document.getElementById('news-dots');
   if (dotsContainer) {
-    dotsContainer.innerHTML = LEGAL_NEWS.map((item, index) => `<button class="carousel-dot ${index === newsCarouselIndex ? 'active' : ''}" type="button" aria-label="Ver noticia ${index + 1}" aria-current="${index === newsCarouselIndex}"></button>`).join('');
+    dotsContainer.innerHTML = LEGAL_NEWS.map((_, index) => `<button class="carousel-dot ${index === newsCarouselIndex ? 'active' : ''}" type="button" aria-label="Ver noticia ${index + 1}" aria-current="${index === newsCarouselIndex}"></button>`).join('');
     dotsContainer.querySelectorAll('.carousel-dot').forEach((dot, index) => dot.addEventListener('click', () => setNewsSlide(index)));
   }
 }
 
 function setNewsSlide(index) {
   newsCarouselIndex = (index + LEGAL_NEWS.length) % LEGAL_NEWS.length;
-  document.querySelectorAll('.news-item').forEach((item, itemIndex) => {
-    const active = itemIndex === newsCarouselIndex;
+  document.querySelectorAll('.news-item').forEach((item, i) => {
+    const active = i === newsCarouselIndex;
     item.classList.toggle('active', active);
     item.setAttribute('aria-hidden', String(!active));
   });
-  document.querySelectorAll('.carousel-dot').forEach((dot, dotIndex) => {
-    const active = dotIndex === newsCarouselIndex;
+  document.querySelectorAll('.carousel-dot').forEach((dot, i) => {
+    const active = i === newsCarouselIndex;
     dot.classList.toggle('active', active);
     dot.setAttribute('aria-current', String(active));
   });
@@ -478,6 +288,8 @@ function restartNewsCarousel() {
   clearInterval(newsCarouselTimer);
   newsCarouselTimer = setInterval(() => setNewsSlide(newsCarouselIndex + 1), 6000);
 }
+
+// --- PORTAL TABS ---
 
 function setupPortalTabs() {
   const tabs = document.querySelectorAll('.portal-tab');
@@ -506,12 +318,16 @@ function requireAuthentication() {
   return false;
 }
 
+// --- API ---
+
 async function apiRequest(path, options = {}) {
   const response = await fetch(path, { headers: { 'Content-Type': 'application/json', ...(options.headers || {}) }, ...options });
   const payload = await response.json().catch(() => ({}));
   if (!response.ok) throw new Error(payload.error || 'No fue posible completar la solicitud.');
   return payload;
 }
+
+// --- AUTH ---
 
 function setupAuthentication() {
   const loginForm = document.getElementById('login-form');
@@ -534,13 +350,40 @@ function setupAuthentication() {
   loginForm.addEventListener('submit', async (event) => {
     event.preventDefault();
     feedback.textContent = 'Validando acceso...';
-    try { const result = await apiRequest('/api/login', { method: 'POST', body: JSON.stringify({ identifier: document.getElementById('login-identifier').value, password: document.getElementById('login-password').value }) }); applyAuthenticatedUser(result.user); closeModal('modal-login'); showTSJToast(`Bienvenido, ${result.user.full_name}`, 'success'); } catch (error) { feedback.textContent = error.message; }
+    try {
+      const result = await apiRequest('/api/login', { method: 'POST', body: JSON.stringify({ identifier: document.getElementById('login-identifier').value, password: document.getElementById('login-password').value }) });
+      applyAuthenticatedUser(result.user);
+      closeModal('modal-login');
+      showTSJToast(`Bienvenido, ${result.user.full_name}`, 'success');
+    } catch (error) { feedback.textContent = error.message; }
   });
 
   registerForm.addEventListener('submit', async (event) => {
     event.preventDefault();
+    feedback.textContent = '';
+
+    const name = document.getElementById('register-name').value.trim();
+    const username = document.getElementById('register-username').value.trim();
+    const email = document.getElementById('register-email').value.trim();
+    const emailConfirm = document.getElementById('register-email-confirm').value.trim();
+    const password = document.getElementById('register-password').value;
+    const passwordConfirm = document.getElementById('register-password-confirm').value;
+    const inpre = document.getElementById('register-inpre').value.trim();
+
+    if (name.length < 3) { feedback.textContent = 'El nombre debe tener al menos 3 caracteres.'; return; }
+    if (!/^[a-z0-9._-]{4,40}$/.test(username)) { feedback.textContent = 'El usuario debe tener 4-40 caracteres (letras, números, puntos, guiones).'; return; }
+    if (!email.includes('@')) { feedback.textContent = 'Ingresa un correo electrónico válido.'; return; }
+    if (email !== emailConfirm) { feedback.textContent = 'Los correos electrónicos no coinciden.'; return; }
+    if (password.length < 8) { feedback.textContent = 'La contraseña debe tener al menos 8 caracteres.'; return; }
+    if (password !== passwordConfirm) { feedback.textContent = 'Las contraseñas no coinciden.'; return; }
+
     feedback.textContent = 'Creando cuenta...';
-    try { const result = await apiRequest('/api/register', { method: 'POST', body: JSON.stringify({ fullName: document.getElementById('register-name').value, username: document.getElementById('register-username').value, email: document.getElementById('register-email').value, password: document.getElementById('register-password').value }) }); applyAuthenticatedUser(result.user); closeModal('modal-login'); showTSJToast('Cuenta creada. Ya puedes navegar por el portal.', 'success'); } catch (error) { feedback.textContent = error.message; }
+    try {
+      const result = await apiRequest('/api/register', { method: 'POST', body: JSON.stringify({ fullName: name, username, email, password, inpre: inpre || null }) });
+      applyAuthenticatedUser(result.user);
+      closeModal('modal-login');
+      showTSJToast('Cuenta creada exitosamente. Ya puedes navegar por el portal.', 'success');
+    } catch (error) { feedback.textContent = error.message; }
   });
 
   apiRequest('/api/session', { method: 'GET' }).then(result => { if (result.authenticated) applyAuthenticatedUser(result.user); }).catch(() => {});
@@ -552,6 +395,8 @@ function applyAuthenticatedUser(user) {
   TSJ_STATE.userRole = user?.role || 'public';
   updateRoleUI();
 }
+
+// --- VIRTUAL ASSISTANT ---
 
 function setupVirtualAssistant() {
   const launcher = document.getElementById('assistant-launcher');
@@ -592,16 +437,16 @@ function setupVirtualAssistant() {
     if (match.court || match.caseMatch) {
       const targetCourtId = match.court?.id || match.caseMatch?.courtId;
       selectCourt(targetCourtId);
-      response = match.court ? `Encontré la jurisdicción “${match.court.title}”. Abrí su listado de expedientes.` : 'Encontré un expediente relacionado y abrí el tribunal donde está registrado.';
+      response = match.court ? `Encontré la jurisdicción "${match.court.title}". Abrí su listado de expedientes.` : 'Encontré un expediente relacionado y abrí el tribunal donde está registrado.';
     } else if (/logue|login|sesion|sesión|acceso|contraseña|clave|entrar|iniciar/.test(lower)) {
       openLoginModal();
       response = 'Abrí el control de acceso. Puedes entrar como público para consultar expedientes o seleccionar el perfil administrativo autorizado.';
     } else if (/tramite|requisito|solicitud|documento|orienta/.test(lower)) {
-      response = 'Para orientarte sobre un trámite, indícame si está relacionado con una causa civil, penal, laboral, protección LOPNNA o violencia contra la mujer.';
+      response = 'Para orientarte sobre un trámite, indícame si está relacionado con una causa civil, penal, laboral, protección LOPNNA o violencia contra una mujer.';
     } else if (/ley|norma|codigo|constituc/.test(lower)) {
-      response = 'Puedes consultar la biblioteca jurídica desde “Leyes y normativa”. Allí encontrarás las normas agrupadas por materia.';
+      response = 'Puedes consultar la biblioteca jurídica desde "Leyes y normativa". Allí encontrarás las normas agrupadas por materia.';
     } else if (/contacto|telefono|horario|sede|ayuda/.test(lower)) {
-      response = 'La información de atención está disponible en “Servicios al ciudadano”, con canales de orientación y trámites digitales.';
+      response = 'La información de atención está disponible en "Servicios al ciudadano", con canales de orientación y trámites digitales.';
     }
     window.setTimeout(() => addMessage(response), 180);
   };
@@ -612,13 +457,16 @@ function setupVirtualAssistant() {
   closeButton?.addEventListener('click', closeAssistant);
   form.addEventListener('submit', event => { event.preventDefault(); respond(input.value); });
   document.querySelectorAll('[data-assistant-prompt]').forEach(button => button.addEventListener('click', () => { openAssistant(); input.value = button.dataset.assistantPrompt; input.focus(); }));
-  document.addEventListener('keydown', event => { if (event.key === 'Escape' && !assistant.hidden) closeAssistant(); });
+  document.addEventListener('keydown', function assistantKeyHandler(event) {
+    if (event.key === 'Escape' && !assistant.hidden) closeAssistant();
+  });
 }
 
-function startTSJApp() {
-  const savedCases = localStorage.getItem('tsj_venezuela_cases_v3');
-  const savedTheme = localStorage.getItem('tsj_theme_v3');
+// --- APP INIT ---
 
+async function startTSJApp() {
+  const savedTheme = localStorage.getItem('tsj_theme_v3');
+  const savedCases = localStorage.getItem('tsj_venezuela_cases_v3');
   TSJ_STATE.cases = savedCases ? JSON.parse(savedCases) : [...INITIAL_TSJ_CASES];
   if (savedTheme) {
     TSJ_STATE.theme = savedTheme;
@@ -626,7 +474,6 @@ function startTSJApp() {
     updateThemeIcon();
   }
 
-  saveTSJData();
   setupAuthentication();
   updateRoleUI();
   renderLegalNews();
@@ -637,10 +484,11 @@ function startTSJApp() {
   renderLawTabs();
 }
 
+// --- LAWS ---
+
 function renderLawTabs() {
   const tabsContainer = document.getElementById('law-category-tabs');
   const listContainer = document.getElementById('law-list-container');
-
   if (!tabsContainer || !listContainer) return;
 
   const categories = Object.entries(VENEZUELAN_LAWS);
@@ -676,78 +524,95 @@ function renderLawTabs() {
   listContainer.addEventListener('click', (event) => {
     const item = event.target.closest('.law-item');
     if (!item) return;
-
     listContainer.querySelectorAll('.law-item').forEach(el => el.classList.remove('active'));
     item.classList.add('active');
     showTSJToast(`Ley seleccionada: ${item.dataset.lawTitle}`, 'info');
   });
 }
 
-function saveTSJData() {
-  localStorage.setItem('tsj_venezuela_cases_v3', JSON.stringify(TSJ_STATE.cases));
-}
-
-// CONTROL DE ROLES Y AUTENTICACIÓN
-function loginAsRole(role) {
-  TSJ_STATE.userRole = role;
-  saveTSJData();
-  updateRoleUI();
-  closeModal('modal-login');
-
-  if (role === 'admin') {
-    showTSJToast('Sesión iniciada como Personal Judicial TSJ (Permisos Totales)', 'success');
-  } else {
-    showTSJToast('Modo Consulta Pública activo (Solo Lectura y Descarga)', 'info');
-  }
-
-  if (TSJ_STATE.currentView === 'court-cases') {
-    renderCourtCasesList();
-  }
-}
+// --- ROLE UI ---
 
 function updateRoleUI() {
   const tag = document.getElementById('role-indicator-tag');
   const name = document.getElementById('role-display-name');
   const loginBtn = document.getElementById('btn-login-header');
+  const logoutBtn = document.getElementById('btn-logout-header');
   const publicNotice = document.getElementById('public-notice-banner');
   const adminNewBtn = document.getElementById('btn-admin-new-case');
 
   if (!TSJ_STATE.authenticated) {
-    tag.className = 'role-tag-indicator role-tag-public';
+    tag.className = 'role-tag-indicator role-tag-guest';
     tag.textContent = 'Invitado';
-    name.textContent = 'Regístrate para consultar';
-    loginBtn.innerHTML = '<i class="fa-solid fa-user-plus"></i> Registrarse / Entrar';
+    name.textContent = 'Regístrate para acceder';
+    if (loginBtn) loginBtn.innerHTML = '<i class="fa-solid fa-user-plus"></i> Registrarse / Entrar';
+    if (loginBtn) loginBtn.style.display = 'inline-flex';
+    if (logoutBtn) logoutBtn.style.display = 'none';
     if (publicNotice) publicNotice.style.display = 'flex';
     if (adminNewBtn) adminNewBtn.style.display = 'none';
   } else if (TSJ_STATE.userRole === 'admin') {
     tag.className = 'role-tag-indicator role-tag-admin';
     tag.textContent = 'Funcionario TSJ';
     name.textContent = TSJ_STATE.user?.full_name || 'Personal autorizado';
-    loginBtn.innerHTML = '<i class="fa-solid fa-user-check"></i> Modo Funcionario Activo';
+    if (loginBtn) loginBtn.style.display = 'none';
+    if (logoutBtn) logoutBtn.innerHTML = '<i class="fa-solid fa-right-from-bracket"></i> Cerrar Sesión';
+    if (logoutBtn) logoutBtn.style.display = 'inline-flex';
     if (publicNotice) publicNotice.style.display = 'none';
     if (adminNewBtn) adminNewBtn.style.display = 'inline-flex';
   } else {
     tag.className = 'role-tag-indicator role-tag-public';
     tag.textContent = 'Público';
     name.textContent = TSJ_STATE.user?.full_name || 'Consulta registrada';
-    loginBtn.innerHTML = '<i class="fa-solid fa-right-to-bracket"></i> Iniciar Sesión / Rol';
+    if (loginBtn) loginBtn.innerHTML = '<i class="fa-solid fa-right-to-bracket"></i> Iniciar Sesión / Rol';
+    if (loginBtn) loginBtn.style.display = 'inline-flex';
+    if (logoutBtn) logoutBtn.innerHTML = '<i class="fa-solid fa-right-from-bracket"></i> Cerrar Sesión';
+    if (logoutBtn) logoutBtn.style.display = 'inline-flex';
     if (publicNotice) publicNotice.style.display = 'flex';
     if (adminNewBtn) adminNewBtn.style.display = 'none';
   }
 }
 
-function openLoginModal() {
-  openModal('modal-login');
+function openLoginModal() { openModal('modal-login'); }
+
+async function logout() {
+  try { await apiRequest('/api/logout', { method: 'POST' }); } catch (e) {}
+  TSJ_STATE.authenticated = false;
+  TSJ_STATE.user = null;
+  TSJ_STATE.userRole = 'public';
+  updateRoleUI();
+  showTSJToast('Sesión cerrada correctamente.', 'info');
+  goToHomeCourts();
 }
 
-// RENDERIZADO DEL GRID DE TRIBUNALES VENEZOLANOS (CON EMBLEMAS REALISTAS)
+function isAdmin() { return TSJ_STATE.authenticated && TSJ_STATE.userRole === 'admin'; }
+
+function togglePasswordVisibility(inputId, button) {
+  const input = document.getElementById(inputId);
+  if (!input) return;
+  const isPassword = input.type === 'password';
+  input.type = isPassword ? 'text' : 'password';
+  const icon = button.querySelector('i');
+  if (icon) icon.className = isPassword ? 'fa-solid fa-eye-slash' : 'fa-solid fa-eye';
+}
+
+// --- COURTS GRID (with pre-computed counts) ---
+
+function computeCaseCounts() {
+  const counts = {};
+  for (const c of TSJ_STATE.cases) {
+    counts[c.courtId] = (counts[c.courtId] || 0) + 1;
+  }
+  return counts;
+}
+
 function renderCourtsGrid() {
   const container = document.getElementById('tribunales-grid-container');
   if (!container) return;
-  container.innerHTML = '';
+
+  const counts = computeCaseCounts();
+  const fragment = document.createDocumentFragment();
 
   TSJ_STATE.courts.forEach(court => {
-    const count = TSJ_STATE.cases.filter(c => c.courtId === court.id).length;
+    const count = counts[court.id] || 0;
     const card = document.createElement('div');
     const isActive = TSJ_STATE.currentCourtId === court.id;
     card.className = `tribunal-card ${isActive ? 'active' : ''}`;
@@ -756,10 +621,7 @@ function renderCourtsGrid() {
     card.setAttribute('aria-label', `Abrir ${court.title}`);
     card.onclick = () => selectCourt(court.id);
     card.onkeydown = (event) => {
-      if (event.key === 'Enter' || event.key === ' ') {
-        event.preventDefault();
-        selectCourt(court.id);
-      }
+      if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); selectCourt(court.id); }
     };
 
     card.innerHTML = `
@@ -770,17 +632,19 @@ function renderCourtsGrid() {
           <div class="tribunal-title">${court.title}</div>
         </div>
       </div>
-
       <div class="tribunal-footer">
         <span class="tribunal-count-pill">${count} activos</span>
         <span class="tribunal-enter-btn">${isActive ? 'Seleccionado' : 'Abrir'} <i class="fa-solid ${isActive ? 'fa-check' : 'fa-arrow-right'}"></i></span>
       </div>
     `;
-    container.appendChild(card);
+    fragment.appendChild(card);
   });
+
+  container.replaceChildren(fragment);
 }
 
-// NAVEGACIÓN A UN TRIBUNAL
+// --- NAVIGATION ---
+
 function selectCourt(courtId) {
   if (!requireAuthentication()) return;
   const court = TSJ_STATE.courts.find(c => c.id === courtId);
@@ -789,18 +653,15 @@ function selectCourt(courtId) {
   TSJ_STATE.currentCourtId = courtId;
   TSJ_STATE.currentView = 'court-cases';
 
-  // Actualizar encabezados
   document.getElementById('court-header-category').textContent = court.category;
   document.getElementById('court-header-title').textContent = court.title;
   document.getElementById('court-header-desc').textContent = court.desc;
 
-  // Breadcrumb
   document.getElementById('breadcrumb-separator').style.display = 'inline';
   const currentBread = document.getElementById('breadcrumb-current-court');
   currentBread.style.display = 'inline';
   currentBread.textContent = court.title;
 
-  // Switch de vistas
   document.querySelectorAll('.view-section').forEach(s => s.classList.remove('active'));
   document.getElementById('view-court-cases').classList.add('active');
 
@@ -828,30 +689,30 @@ function goToHomeCourts() {
 }
 
 function returnToCurrentCourt() {
-  if (TSJ_STATE.currentCourtId) {
-    selectCourt(TSJ_STATE.currentCourtId);
-  } else {
-    goToHomeCourts();
-  }
+  if (TSJ_STATE.currentCourtId) selectCourt(TSJ_STATE.currentCourtId);
+  else goToHomeCourts();
 }
 
-// LISTA DE EXPEDIENTES DEL TRIBUNAL
+// --- CASES LIST (with DocumentFragment) ---
+
+function getFilteredCases(filterTerm) {
+  const courtCases = TSJ_STATE.cases.filter(c => c.courtId === TSJ_STATE.currentCourtId);
+  const q = filterTerm.toLowerCase().trim();
+  if (!q) return courtCases;
+  return courtCases.filter(c =>
+    c.nue.toLowerCase().includes(q) ||
+    c.caratula.toLowerCase().includes(q) ||
+    c.actor.toLowerCase().includes(q) ||
+    c.demandado.toLowerCase().includes(q) ||
+    c.juzgado.toLowerCase().includes(q)
+  );
+}
+
 function renderCourtCasesList(filterTerm = '') {
   const container = document.getElementById('court-cases-list');
   if (!container) return;
-  container.innerHTML = '';
 
-  const courtCases = TSJ_STATE.cases.filter(c => c.courtId === TSJ_STATE.currentCourtId);
-  const q = filterTerm.toLowerCase().trim();
-
-  const filtered = courtCases.filter(c => {
-    return !q || 
-      c.nue.toLowerCase().includes(q) || 
-      c.caratula.toLowerCase().includes(q) || 
-      c.actor.toLowerCase().includes(q) || 
-      c.demandado.toLowerCase().includes(q) ||
-      c.juzgado.toLowerCase().includes(q);
-  });
+  const filtered = getFilteredCases(filterTerm);
 
   if (filtered.length === 0) {
     container.innerHTML = `
@@ -864,6 +725,7 @@ function renderCourtCasesList(filterTerm = '') {
     return;
   }
 
+  const fragment = document.createDocumentFragment();
   filtered.forEach(c => {
     let badgeClass = 'badge-blue';
     if (c.estado === 'Autos para Sentencia') badgeClass = 'badge-purple';
@@ -882,7 +744,6 @@ function renderCourtCasesList(filterTerm = '') {
           <span><i class="fa-solid fa-clock" style="color: var(--tsj-blue-primary);"></i> Última actuación: ${c.fecha}</span>
         </div>
       </div>
-
       <div class="case-clean-actions">
         <span class="clean-badge ${badgeClass}">${c.estado}</span>
         <button class="btn-main btn-primary-clean" onclick="openCaseDetail('${c.id}')">
@@ -890,15 +751,27 @@ function renderCourtCasesList(filterTerm = '') {
         </button>
       </div>
     `;
-    container.appendChild(item);
+    fragment.appendChild(item);
   });
+
+  container.replaceChildren(fragment);
 }
 
-function filterCourtCases(term) {
+const debouncedFilter = debounce((term) => {
   renderCourtCasesList(term);
-}
+  if (TSJ_STATE.authenticated && term && term.trim().length >= 3) {
+    const resultCount = getFilteredCases(term).length;
+    apiRequest('/api/search-records', {
+      method: 'POST',
+      body: JSON.stringify({ query: term, courtId: TSJ_STATE.currentCourtId, resultCount })
+    }).catch(() => {});
+  }
+}, 300);
 
-// FICHA 360° DEL EXPEDIENTE (MODAL)
+function filterCourtCases(term) { debouncedFilter(term); }
+
+// --- CASE DETAIL ---
+
 function openCaseDetail(caseId) {
   const c = TSJ_STATE.cases.find(item => item.id === caseId);
   if (!c) return;
@@ -913,37 +786,19 @@ function openCaseDetail(caseId) {
   document.getElementById('detail-letrado').textContent = c.letrado;
   document.getElementById('detail-fojas').textContent = `${c.fojas} fojas foliadas`;
 
-  // Barra de progreso según estado
   const step1 = document.getElementById('step-1');
   const step2 = document.getElementById('step-2');
   const step3 = document.getElementById('step-3');
   const step4 = document.getElementById('step-4');
-
   [step1, step2, step3, step4].forEach(s => s.className = 'step-item');
 
-  if (c.estado === 'En Trámite') {
-    step1.className = 'step-item completed';
-    step2.className = 'step-item active';
-  } else if (c.estado === 'Apertura a Prueba') {
-    step1.className = 'step-item completed';
-    step2.className = 'step-item completed';
-    step3.className = 'step-item active';
-  } else if (c.estado === 'Autos para Sentencia') {
-    step1.className = 'step-item completed';
-    step2.className = 'step-item completed';
-    step3.className = 'step-item completed';
-    step4.className = 'step-item active';
-  } else if (c.estado === 'Sentencia Dictada') {
-    step1.className = 'step-item completed';
-    step2.className = 'step-item completed';
-    step3.className = 'step-item completed';
-    step4.className = 'step-item completed';
-  }
+  if (c.estado === 'En Trámite') { step1.className = 'step-item completed'; step2.className = 'step-item active'; }
+  else if (c.estado === 'Apertura a Prueba') { step1.className = 'step-item completed'; step2.className = 'step-item completed'; step3.className = 'step-item active'; }
+  else if (c.estado === 'Autos para Sentencia') { step1.className = 'step-item completed'; step2.className = 'step-item completed'; step3.className = 'step-item completed'; step4.className = 'step-item active'; }
+  else if (c.estado === 'Sentencia Dictada') { step1.className = 'step-item completed'; step2.className = 'step-item completed'; step3.className = 'step-item completed'; step4.className = 'step-item completed'; }
 
-  // Actuaciones
   const list = document.getElementById('detail-history-list');
-  list.innerHTML = '';
-
+  const fragment = document.createDocumentFragment();
   c.actuaciones.forEach(act => {
     const box = document.createElement('div');
     box.style.cssText = 'background: var(--tsj-blue-subtle); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 14px 16px;';
@@ -957,13 +812,12 @@ function openCaseDetail(caseId) {
         <i class="fa-solid fa-signature"></i> Firmado: ${act.firmante}
       </div>
     `;
-    list.appendChild(box);
+    fragment.appendChild(box);
   });
+  list.replaceChildren(fragment);
 
-  // Control de botones según ROL (Modificar vs Solo Lectura)
   const btnDelete = document.getElementById('btn-admin-delete');
   const btnAddAct = document.getElementById('btn-admin-add-act');
-
   if (TSJ_STATE.userRole === 'admin') {
     btnDelete.style.display = 'inline-flex';
     btnAddAct.style.display = 'inline-flex';
@@ -975,13 +829,13 @@ function openCaseDetail(caseId) {
   openModal('modal-case-detail');
 }
 
-// RADICAR NUEVA CAUSA (SOLO ADMINISTRATIVOS)
+// --- NEW CASE ---
+
 function openNewCaseForCurrentCourt() {
   if (TSJ_STATE.userRole !== 'admin') {
     showTSJToast('Permiso denegado: Solo el personal judicial del TSJ puede registrar causas.', 'warning');
     return;
   }
-
   const court = TSJ_STATE.courts.find(c => c.id === TSJ_STATE.currentCourtId);
   if (!court) return;
 
@@ -1013,31 +867,20 @@ function handleAdminSubmitNewCase(e) {
 
   const newCase = {
     id: 'CASE-' + Date.now(),
-    courtId: TSJ_STATE.currentCourtId,
-    nue: nue,
-    caratula: caratula,
-    juzgado: juzgado,
-    objeto: objeto,
-    actor: actor,
-    demandado: demandado,
-    letrado: letrado,
-    monto: monto,
-    estado: 'En Trámite',
-    fojas: 10,
-    fecha: today,
-    actuaciones: [
-      { fecha: today, tipo: 'Radicación de Causa', texto: `Ingreso formal del escrito y auto de radicación en ${juzgado}.`, firmante: letrado, fojas: '1-10' }
-    ]
+    courtId: TSJ_STATE.currentCourtId, nue, caratula, juzgado, objeto, actor, demandado, letrado, monto,
+    estado: 'En Trámite', fojas: 10, fecha: today,
+    actuaciones: [{ fecha: today, tipo: 'Radicación de Causa', texto: `Ingreso formal del escrito y auto de radicación en ${juzgado}.`, firmante: letrado, fojas: '1-10' }]
   };
 
   TSJ_STATE.cases.unshift(newCase);
-  saveTSJData();
+  localStorage.setItem('tsj_venezuela_cases_v3', JSON.stringify(TSJ_STATE.cases));
   showTSJToast(`Expediente ${nue} radicado y foliado con éxito en el TSJ`, 'success');
   document.getElementById('admin-new-case-form').reset();
   selectCourt(TSJ_STATE.currentCourtId);
 }
 
-// AGREGAR ACTUACIÓN (SOLO ADMINISTRATIVOS)
+// --- ACTUACIONES ---
+
 function openAddActuationModal() {
   if (TSJ_STATE.userRole !== 'admin') {
     showTSJToast('Permiso denegado: El público solo tiene acceso de lectura.', 'warning');
@@ -1062,32 +905,25 @@ function handleSaveActuation(e) {
   const endFoja = c.fojas + 2;
   c.fojas = endFoja;
   c.fecha = today;
+  c.actuaciones.push({ fecha: today, tipo, texto, firmante, fojas: `${startFoja}-${endFoja}` });
 
-  c.actuaciones.push({
-    fecha: today,
-    tipo: tipo,
-    texto: texto,
-    firmante: firmante,
-    fojas: `${startFoja}-${endFoja}`
-  });
-
-  saveTSJData();
+  localStorage.setItem('tsj_venezuela_cases_v3', JSON.stringify(TSJ_STATE.cases));
   showTSJToast(`Actuación foliada en Fs. ${startFoja}-${endFoja} incorporada`, 'success');
   closeModal('modal-add-actuation');
   openCaseDetail(TSJ_STATE.activeCaseId);
   renderCourtCasesList();
 }
 
-// DAR DE BAJA EXPEDIENTE (SOLO ADMINISTRATIVOS)
+// --- DELETE CASE ---
+
 function deleteActiveCase() {
   if (TSJ_STATE.userRole !== 'admin') {
     showTSJToast('Permiso denegado: El público no puede eliminar causas.', 'warning');
     return;
   }
-
   if (confirm('¿Confirma dar de baja este expediente del registro oficial del Tribunal?')) {
     TSJ_STATE.cases = TSJ_STATE.cases.filter(c => c.id !== TSJ_STATE.activeCaseId);
-    saveTSJData();
+    localStorage.setItem('tsj_venezuela_cases_v3', JSON.stringify(TSJ_STATE.cases));
     showTSJToast('Expediente dado de baja del registro', 'warning');
     closeModal('modal-case-detail');
     renderCourtCasesList();
@@ -1095,16 +931,10 @@ function deleteActiveCase() {
   }
 }
 
-// UTILIDADES MODALES Y TOASTS
-function openModal(id) {
-  const el = document.getElementById(id);
-  if (el) el.classList.add('active');
-}
+// --- MODALS & TOASTS ---
 
-function closeModal(id) {
-  const el = document.getElementById(id);
-  if (el) el.classList.remove('active');
-}
+function openModal(id) { const el = document.getElementById(id); if (el) el.classList.add('active'); }
+function closeModal(id) { const el = document.getElementById(id); if (el) el.classList.remove('active'); }
 
 function showTSJToast(msg, type = 'info') {
   const stack = document.getElementById('toast-stack');
@@ -1117,6 +947,7 @@ function showTSJToast(msg, type = 'info') {
     <span>${msg}</span>
   `;
   stack.appendChild(toast);
+  limitToasts();
 
   setTimeout(() => {
     toast.style.opacity = '0';
@@ -1133,10 +964,7 @@ function toggleTheme() {
 
 function updateThemeIcon() {
   const icon = document.getElementById('theme-icon');
-  if (icon) {
-    icon.className = TSJ_STATE.theme === 'light' ? 'fa-solid fa-moon' : 'fa-solid fa-sun';
-  }
+  if (icon) icon.className = TSJ_STATE.theme === 'light' ? 'fa-solid fa-moon' : 'fa-solid fa-sun';
 }
 
-// INICIAR AL CARGAR
 document.addEventListener('DOMContentLoaded', startTSJApp);

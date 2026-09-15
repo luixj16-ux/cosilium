@@ -13,6 +13,7 @@ CREATE TABLE IF NOT EXISTS users (
   full_name TEXT NOT NULL,
   email TEXT UNIQUE,
   password_hash TEXT,
+  inpre TEXT,
   active INTEGER NOT NULL DEFAULT 1 CHECK (active IN (0, 1)),
   created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
@@ -117,3 +118,8 @@ INSERT OR IGNORE INTO roles (id, name, description) VALUES
 
 INSERT OR IGNORE INTO users (role_id, username, full_name, email) VALUES
   (1, 'consulta-publica', 'Consulta Pública', NULL);
+
+-- Usuario administrador por defecto (sin contraseña hasheada aún)
+-- La contraseña se establece mediante POST /api/setup-admin
+INSERT OR IGNORE INTO users (role_id, username, full_name, email) VALUES
+  (2, 'admin', 'Administrador TSJ', 'admin@tsj.gob.ve');
