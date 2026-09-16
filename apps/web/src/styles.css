@@ -1,57 +1,500 @@
 :root {
-  font-family: 'Nunito Sans', system-ui, sans-serif;
-  color-scheme: light dark;
+  --tsj-blue-dark: #092c53;
+  --tsj-blue-primary: #0d47a1;
+  --tsj-blue-surface: #dbe6f5;
+  --tsj-blue-subtle: #f0f5fb;
+  --gold: #c59b27;
+  --text: #1c2330;
+  --text-muted: #5b6b7c;
+  --bg: #f5f7fa;
+  --border: #dfe5ec;
+  --card-bg: #ffffff;
+  --radius: 12px;
+  --font-title: 'Plus Jakarta Sans', system-ui, sans-serif;
+  --font-body: 'Inter', system-ui, sans-serif;
 }
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
 
 body {
-  margin: 0;
-  background: #eef8f8;
-  color: #12333d;
+  font-family: var(--font-body);
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.5;
 }
 
-.App-main {
-  max-width: 860px;
-  margin: 0 auto;
-  padding: 32px 16px;
-}
+.App { min-height: 100vh; }
 
-.App-title {
-  color: #164b59;
-}
-
-.DocumentUploadList-container {
-  background: #ffffff;
-  border-radius: 16px;
-  padding: 20px;
-  box-shadow: 0 6px 20px rgba(18, 51, 61, 0.07);
-}
-
-.DocumentRow-container {
+/* ── Header ─────────────────────────────────────────── */
+.AppHeader {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 12px;
-  padding: 10px 0;
-  border-bottom: 1px solid #effafa;
+  gap: 16px;
+  padding: 14px 28px;
+  background: linear-gradient(180deg, var(--tsj-blue-dark), #0b3a7a);
+  color: #fff;
+  box-shadow: 0 2px 10px rgba(9, 44, 83, 0.35);
 }
 
-.DocumentRow-title {
-  font-weight: 700;
-}
-
-.DocumentRow-status {
-  font-size: 0.8rem;
-  padding: 4px 10px;
-  border-radius: 9999px;
-  background: #dff4f2;
-  color: #087f8c;
-}
-
-.DocumentRow-action {
-  border: 1px solid #087f8c;
-  background: transparent;
-  color: #087f8c;
-  border-radius: 10px;
-  padding: 6px 12px;
+.AppHeader-brand {
+  display: flex;
+  align-items: center;
+  gap: 14px;
   cursor: pointer;
+}
+
+.AppHeader-titles { display: flex; flex-direction: column; }
+.AppHeader-subtitle { font-weight: 800; letter-spacing: 0.5px; font-size: 0.95rem; }
+.AppHeader-inst { font-size: 0.75rem; opacity: 0.8; }
+
+.AppHeader-actions { display: flex; align-items: center; gap: 12px; }
+.AppHeader-login,
+.AppHeader-logout {
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  background: transparent;
+  color: #fff;
+  padding: 8px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+}
+.AppHeader-login:hover, .AppHeader-logout:hover { background: rgba(255, 255, 255, 0.12); }
+
+.RoleBadge-container { display: flex; align-items: center; gap: 8px; }
+.RoleBadge-tag {
+  font-size: 0.7rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: 999px;
+}
+.RoleBadge-tag-public { background: rgba(255, 255, 255, 0.15); color: #fff; }
+.RoleBadge-tag-admin { background: var(--gold); color: var(--tsj-blue-dark); }
+.RoleBadge-name { font-size: 0.85rem; font-weight: 600; }
+
+/* ── Breadcrumb ─────────────────────────────────────── */
+.Breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 28px;
+  background: #fff;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.85rem;
+}
+.Breadcrumb-link {
+  border: none;
+  background: none;
+  color: var(--tsj-blue-primary);
+  cursor: pointer;
+  font-weight: 600;
+}
+.Breadcrumb-separator { color: var(--text-muted); }
+.Breadcrumb-current { font-weight: 700; color: var(--tsj-blue-dark); }
+.Breadcrumb-role { margin-left: auto; }
+.Breadcrumb-role[data-admin='true'] { color: var(--gold); font-weight: 700; }
+
+/* ── Contenido ──────────────────────────────────────── */
+.App-content {
+  max-width: 1140px;
+  margin: 0 auto;
+  padding: 32px 28px;
+}
+
+.App-hero {
+  background: linear-gradient(160deg, var(--tsj-blue-dark), #14539c);
+  color: #fff;
+  border-radius: var(--radius);
+  padding: 34px 32px;
+  margin-bottom: 28px;
+}
+.App-hero h1 { font-family: var(--font-title); font-size: 1.7rem; margin-bottom: 8px; }
+.App-hero p { opacity: 0.9; max-width: 720px; }
+
+.App-section { margin-bottom: 32px; }
+.App-section h2 { font-family: var(--font-title); color: var(--tsj-blue-dark); margin-bottom: 14px; }
+
+.App-cases-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+.App-btn-primary {
+  background: var(--tsj-blue-primary);
+  border: none;
+  color: #fff;
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+/* ── Court cards ────────────────────────────────────── */
+.CourtsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 16px;
+}
+.CourtsGrid-card {
+  border: 1px solid var(--border);
+  background: var(--card-bg);
+  border-radius: var(--radius);
+  padding: 20px;
+  cursor: pointer;
+  text-align: left;
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+}
+.CourtsGrid-card:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(9, 44, 83, 0.12); }
+.CourtsGrid-name { display: block; font-weight: 700; color: var(--tsj-blue-dark); }
+.CourtsGrid-category { font-size: 0.78rem; color: var(--tsj-blue-primary); text-transform: uppercase; letter-spacing: 0.5px; }
+.CourtsGrid-empty, .CasesList-empty { color: var(--text-muted); padding: 16px; }
+
+/* ── Case cards ─────────────────────────────────────── */
+.CasesList { display: flex; flex-direction: column; gap: 14px; }
+.CaseCard {
+  border: 1px solid var(--border);
+  background: var(--card-bg);
+  border-radius: var(--radius);
+  padding: 18px 20px;
+  box-shadow: 0 1px 4px rgba(9, 44, 83, 0.06);
+}
+.CaseCard-nue {
+  font-weight: 800;
+  color: var(--tsj-blue-primary);
+  font-size: 0.82rem;
+  letter-spacing: 0.3px;
+}
+.CaseCard-title { font-family: var(--font-title); color: var(--tsj-blue-dark); margin: 4px 0 2px; }
+.CaseCard-subject { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 10px; }
+.CaseCard-partes { display: flex; gap: 28px; font-size: 0.85rem; margin-bottom: 10px; }
+.CaseCard-partes dt { color: var(--text-muted); font-size: 0.75rem; }
+.CaseCard-partes dd { font-weight: 600; }
+.CaseCard-status {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: var(--tsj-blue-subtle);
+  color: var(--tsj-blue-primary);
+  border: 1px solid var(--tsj-blue-surface);
+  margin-bottom: 10px;
+}
+.CaseCard-open {
+  border: none;
+  background: var(--tsj-blue-primary);
+  color: #fff;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* ── Modal / overlays ───────────────────────────────── */
+.ModalOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(9, 20, 36, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 40;
+  padding: 20px;
+  overflow-y: auto;
+}
+.CaseDetailModal, .App-auth-modal {
+  background: #fff;
+  border-radius: var(--radius);
+  max-width: 760px;
+  width: 100%;
+  padding: 26px;
+  position: relative;
+  box-shadow: 0 20px 50px rgba(9, 20, 36, 0.35);
+}
+.App-auth-modal { max-width: 440px; }
+.App-auth-close, .CaseDetailModal-close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  border: none;
+  background: var(--tsj-blue-subtle);
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  font-size: 1.1rem;
+  cursor: pointer;
+}
+.CaseDetailModal-nue { font-weight: 800; color: var(--tsj-blue-primary); }
+.CaseDetailModal-title { font-family: var(--font-title); color: var(--tsj-blue-dark); margin: 8px 0 14px; }
+.CaseDetailModal-meta {
+  background: var(--tsj-blue-subtle);
+  border: 1px solid var(--tsj-blue-surface);
+  border-radius: 10px;
+  padding: 16px 18px;
+  font-size: 0.88rem;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px 20px;
+  margin-bottom: 18px;
+}
+.CaseDetailModal-meta dt { color: var(--text-muted); font-size: 0.75rem; }
+.CaseDetailModal-meta dd { font-weight: 600; }
+.CaseDetailModal h4 { margin: 4px 0 12px; color: var(--tsj-blue-dark); }
+.CaseDetailModal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 20px;
+}
+.CaseDetailModal-actions button {
+  border: none;
+  border-radius: 8px;
+  padding: 9px 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.CaseDetailModal-delete { background: #c0392b; color: #fff; }
+.CaseDetailModal-add { background: var(--tsj-blue-primary); color: #fff; }
+.CaseDetailModal-print { background: var(--tsj-blue-subtle); color: var(--tsj-blue-dark); }
+
+/* ── Actuation timeline ─────────────────────────────── */
+.ActuationTimeline { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+.ActuationTimeline-item {
+  border-left: 3px solid var(--tsj-blue-primary);
+  padding-left: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.ActuationTimeline-date { font-size: 0.75rem; color: var(--text-muted); }
+.ActuationTimeline-type { font-weight: 700; color: var(--tsj-blue-dark); }
+.ActuationTimeline-summary { font-size: 0.9rem; }
+.ActuationTimeline-signedBy { font-size: 0.8rem; color: var(--text-muted); font-style: italic; }
+.ActuationTimeline-pages { font-size: 0.75rem; font-weight: 700; color: var(--tsj-blue-primary); }
+
+/* ── Forms ──────────────────────────────────────────── */
+.AuthForm, .NewCaseForm, .AddActuationForm {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.AuthForm label, .NewCaseForm label, .AddActuationForm label { font-size: 0.85rem; font-weight: 600; }
+.AuthForm input, .NewCaseForm input, .AddActuationForm input,
+.AuthForm select, .AddActuationForm select,
+.AddActuationForm textarea {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 9px 12px;
+  font-size: 0.92rem;
+  font-family: var(--font-body);
+}
+.AuthForm-switch { display: flex; gap: 8px; margin-bottom: 6px; }
+.AuthForm-switch button {
+  flex: 1;
+  padding: 9px;
+  border: 1px solid var(--border);
+  background: var(--tsj-blue-subtle);
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 700;
+  color: var(--text-muted);
+}
+.AuthForm-switch button[aria-selected='true'] {
+  background: var(--tsj-blue-primary);
+  color: #fff;
+  border-color: var(--tsj-blue-primary);
+}
+.AuthForm-submit, .NewCaseForm-submit, .AddActuationForm-submit {
+  border: none;
+  background: var(--tsj-blue-primary);
+  color: #fff;
+  padding: 11px;
+  border-radius: 8px;
+  font-weight: 700;
+  cursor: pointer;
+  margin-top: 6px;
+}
+.AuthForm-feedback { color: #c0392b; font-size: 0.85rem; }
+.NewCaseForm, .AddActuationForm { max-width: 620px; }
+.NewCaseForm h3, .AddActuationForm h3 { color: var(--tsj-blue-dark); font-family: var(--font-title); }
+.NewCaseForm .NewCaseForm-court { color: var(--text-muted); font-size: 0.85rem; }
+.NewCaseForm-actions, .AddActuationForm-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 10px;
+}
+.NewCaseForm-actions button, .AddActuationForm-actions button {
+  border: none;
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.NewCaseForm-actions button:first-child, .AddActuationForm-actions button:first-child {
+  background: var(--tsj-blue-subtle);
+  color: var(--tsj-blue-dark);
+}
+
+/* ── SearchBox ──────────────────────────────────────── */
+.SearchBox {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 6px 16px;
+  flex: 1;
+  max-width: 520px;
+}
+.SearchBox input {
+  border: none;
+  outline: none;
+  flex: 1;
+  font-size: 0.92rem;
+  font-family: var(--font-body);
+  background: transparent;
+}
+
+/* ── PublicNoticeBanner ─────────────────────────────── */
+.PublicNoticeBanner {
+  background: var(--tsj-blue-subtle);
+  border: 1px solid var(--tsj-blue-surface);
+  border-left: 5px solid var(--tsj-blue-primary);
+  padding: 12px 18px;
+  border-radius: 10px;
+  font-size: 0.86rem;
+  margin-bottom: 16px;
+  color: var(--tsj-blue-dark);
+}
+
+/* ── Laws catalog ───────────────────────────────────── */
+.LawsCatalog-tabs { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+.LawsCatalog-tab {
+  border: 1px solid var(--border);
+  background: #fff;
+  padding: 8px 14px;
+  border-radius: 999px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+.LawsCatalog-tab[aria-selected='true'] {
+  background: var(--tsj-blue-primary);
+  color: #fff;
+  border-color: var(--tsj-blue-primary);
+}
+.LawsCatalog-list { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+.LawsCatalog-item {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 12px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+.LawsCatalog-item-title { font-weight: 600; }
+.LawsCatalog-item-meta { color: var(--text-muted); font-size: 0.82rem; }
+.LawsCatalog-empty { color: var(--text-muted); }
+
+/* ── News ───────────────────────────────────────────── */
+.NewsList { position: relative; background: var(--card-bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; }
+.NewsList-controls { position: absolute; top: 20px; right: 20px; display: flex; gap: 8px; }
+.NewsList-controls button {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: #fff;
+  cursor: pointer;
+  font-size: 1rem;
+}
+.NewsList-card { max-width: 640px; }
+.NewsList-tag {
+  display: inline-block;
+  background: var(--gold);
+  color: var(--tsj-blue-dark);
+  font-size: 0.72rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  padding: 2px 10px;
+  border-radius: 999px;
+  margin-bottom: 8px;
+}
+.NewsList-card h3 { font-family: var(--font-title); color: var(--tsj-blue-dark); margin-bottom: 6px; }
+.NewsList-card p { color: var(--text-muted); margin-bottom: 8px; }
+.NewsList-card time { font-size: 0.8rem; color: var(--text-muted); }
+.NewsList-impact { font-size: 0.8rem; font-weight: 600; color: var(--tsj-blue-primary); margin-left: 12px; }
+.NewsList-empty { color: var(--text-muted); }
+
+/* ── Admin users ────────────────────────────────────── */
+.AdminUsersList { overflow-x: auto; }
+.AdminUsersList-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+}
+.AdminUsersList-table th, .AdminUsersList-table td {
+  text-align: left;
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.88rem;
+}
+.AdminUsersList-table thead th { background: var(--tsj-blue-subtle); color: var(--tsj-blue-dark); }
+.AdminUsersList-table button {
+  border: none;
+  background: var(--tsj-blue-primary);
+  color: #fff;
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+/* ── Toast ──────────────────────────────────────────── */
+.ToastStack {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 60;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.ToastStack-toast {
+  background: var(--tsj-blue-dark);
+  color: #fff;
+  padding: 12px 18px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 0 8px 24px rgba(9, 20, 36, 0.3);
+  max-width: 360px;
+}
+.ToastStack-toast-success { background: #1e7e34; }
+.ToastStack-toast-error { background: #c0392b; }
+.ToastStack-toast-info { background: var(--tsj-blue-primary); }
+.ToastStack-dismiss {
+  border: none;
+  background: transparent;
+  color: #fff;
+  font-size: 1.1rem;
+  cursor: pointer;
+}
+.ToastStack-clear {
+  border: none;
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  cursor: pointer;
+  text-align: right;
 }
