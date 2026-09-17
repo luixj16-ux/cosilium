@@ -8,38 +8,35 @@ export interface ToastMessage {
 
 export interface ToastStackProps {
   toasts: ToastMessage[];
-  onDismiss: (id: string) => void;
-  autoDismissMs?: number;
+  onDismiss?: (id: string) => void;
 }
 
+const TOAST_CLASS: Record<ToastMessage['kind'], string> = {
+  success: 'success',
+  error: 'warning',
+  info: 'info'
+};
+
+const TOAST_ICON: Record<ToastMessage['kind'], string> = {
+  success: 'fa-circle-check',
+  error: 'fa-triangle-exclamation',
+  info: 'fa-info-circle'
+};
+
 /**
- * ToastStack — Dumb Component. Notificaciones transitorias. El padre
- * alimenta los toasts; el componente permite descartarlos.
+ * ToastStack — Dumb Component. Notificaciones transitorias (máx. 4).
+ * El padre alimenta los toasts y los autodestruye con retardo.
  */
-export const ToastStack: React.FC<ToastStackProps> = ({
-  toasts,
-  onDismiss,
-  autoDismissMs
-}) => {
+export const ToastStack: React.FC<ToastStackProps> = ({ toasts, onDismiss }) => {
+  void onDismiss;
   return (
-    <div className="ToastStack" role="status" aria-live="polite">
+    <div className="toast-stack" id="toast-stack" role="status" aria-live="polite">
       {toasts.map((toast) => (
-        <div key={toast.id} className={`ToastStack-toast ToastStack-toast-${toast.kind}`} data-kind={toast.kind}>
-          <span className="ToastStack-message">{toast.message}</span>
-          {autoDismissMs ? (
-            <span className="ToastStack-timer" aria-hidden="true" />
-          ) : (
-            <button type="button" className="ToastStack-dismiss" aria-label="Cerrar aviso" onClick={() => onDismiss(toast.id)}>
-              ×
-            </button>
-          )}
+        <div key={toast.id} className={`toast-msg ${TOAST_CLASS[toast.kind]}`} data-kind={toast.kind}>
+          <i className={`fa-solid ${TOAST_ICON[toast.kind]}`} />
+          <span>{toast.message}</span>
         </div>
       ))}
-      {toasts.length === 0 ? null : (
-        <button type="button" className="ToastStack-clear" onClick={() => toasts.forEach((t) => onDismiss(t.id))}>
-          Cerrar todos
-        </button>
-      )}
     </div>
   );
 };

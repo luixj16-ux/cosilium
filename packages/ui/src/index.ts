@@ -16,7 +16,11 @@ export {
   type DocumentStatusBadgeProps
 } from './components/DocumentStatusBadge';
 
-export { AppHeader, type AppHeaderProps } from './components/AppHeader';
+export {
+  PortalHeader,
+  type PortalHeaderProps,
+  type TabId
+} from './components/PortalHeader';
 export { RoleBadge, type RoleBadgeProps } from './components/RoleBadge';
 export { CourtsGrid, type CourtsGridProps } from './components/CourtsGrid';
 export { CasesList, type CasesListProps } from './components/CasesList';
@@ -43,8 +47,15 @@ export {
 } from './components/AdminUsersList';
 export { ToastStack, type ToastStackProps, type ToastMessage } from './components/ToastStack';
 export { SearchBox, type SearchBoxProps } from './components/SearchBox';
-export {
-  PublicNoticeBanner,
-  type PublicNoticeBannerProps
-} from './components/PublicNoticeBanner';
+export { PublicNoticeBanner } from './components/PublicNoticeBanner';
 export { Breadcrumb, type BreadcrumbProps } from './components/Breadcrumb';
+export {
+  InstitutionPanel,
+  type InstitutionPanelProps
+} from './components/InstitutionPanel';
+export { ServicesPanel, type ServicesPanelProps } from './components/ServicesPanel';
+export { AgendaPanel, type AgendaPanelProps } from './components/AgendaPanel';
+export {
+  VirtualAssistant,
+  type VirtualAssistantProps
+} from './components/VirtualAssistant';

@@ -7,20 +7,21 @@ export interface SearchBoxProps {
 }
 
 /**
- * SearchBox — Dumb Component. Caja de búsqueda por término.
- * Reenvía el texto a `onSearch` en cada cambio; sin lógica de negocio.
+ * SearchBox — Dumb Component. Campo de búsqueda del tribunal.
+ * Reenvía el texto a `onSearch` en cada cambio.
  */
 export const SearchBox: React.FC<SearchBoxProps> = ({
-  placeholder = 'Buscar…',
+  placeholder = 'Buscar en este tribunal...',
   value,
   onSearch
 }) => {
   return (
-    <div className="SearchBox">
-      <span className="SearchBox-icon" aria-hidden="true">🔎</span>
+    <div className="hero-search-wrapper">
+      <i className="fa-solid fa-magnifying-glass hero-search-icon" />
       <input
         type="text"
-        className="SearchBox-input"
+        className="hero-search-input"
+        id="court-cases-search"
         value={value}
         placeholder={placeholder}
         aria-label={placeholder}

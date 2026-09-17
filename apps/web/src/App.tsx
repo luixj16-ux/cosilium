@@ -1,9 +1,11 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { buildPortalInMemoryDependencies } from '@consilium/core';
 import type { User } from '@consilium/core';
 import type { CourtDto, LegalCaseDto } from '@consilium/contracts';
 import {
-  AppHeader,
+  PortalHeader,
+  type TabId,
+  Breadcrumb,
   CourtsGrid,
   CasesList,
   CaseDetailModal,
@@ -16,7 +18,10 @@ import {
   ToastStack,
   SearchBox,
   PublicNoticeBanner,
-  Breadcrumb
+  InstitutionPanel,
+  ServicesPanel,
+  AgendaPanel,
+  VirtualAssistant
 } from '@consilium/ui';
 import { createPortalUseCases } from './useCases';
 import { toCourtDto, toCaseDto, toUserDto } from './mappers';
@@ -25,6 +30,7 @@ const DEPENDENCIES = buildPortalInMemoryDependencies();
 const USE_CASES = createPortalUseCases(DEPENDENCIES);
 
 type View = 'home' | 'court-cases' | 'new-case';
+type Theme = 'light' | 'dark';
 type AuthMode = 'login' | 'register';
 
 interface Toast {
@@ -32,6 +38,8 @@ interface Toast {
   message: string;
   kind: 'success' | 'error' | 'info';
 }
+
+const GATED_TABS: TabId[] = ['courts-panel', 'laws-panel'];
 
 /**
  * App (@consilium/web) — Composition Root.
@@ -42,6 +50,12 @@ interface Toast {
  */
 export const App: React.FC = () => {
   const [view, setView] = useState<View>('home');
+  const [activeTab, setActiveTab] = useState<TabId | null>(null);
+  const [theme, setThemeState] = useState<Theme>(() => {
+    if (typeof window === 'undefined') return 'light';
+    const saved = window.localStorage.getItem('tsj_theme_v3');
+    return saved === 'dark' ? 'dark' : 'light';
+  });
   const [authMode, setAuthMode] = useState<AuthMode>('login');
   const [authFeedback, setAuthFeedback] = useState<string | null>(null);
   const [showAuthModal, setShowAuthModal] = useState(false);
@@ -52,12 +66,19 @@ export const App: React.FC = () => {
   const [selectedCase, setSelectedCase] = useState<LegalCaseDto | null>(null);
   const [showAddActuation, setShowAddActuation] = useState(false);
   const [toasts, setToasts] = useState<Toast[]>([]);
+  const [refreshKey, setRefreshKey] = useState(0);
 
   const courts = useMemo(() => USE_CASES.listCourts.execute().map(toCourtDto), []);
   const selectedCourt: CourtDto | null =
     courts.find((c) => c.id === selectedCourtId) ?? null;
   const laws = useMemo(() => USE_CASES.listLaws.execute(), []);
   const news = useMemo(() => USE_CASES.listNews.execute(), []);
+
+  const role: 'guest' | 'public' | 'admin' = currentUser
+    ? currentUser.isAdmin
+      ? 'admin'
+      : 'public'
+    : 'guest';
 
   const cases: LegalCaseDto[] = useMemo(() => {
     if (!selectedCourtId || !currentUser) return [];
@@ -66,14 +87,43 @@ export const App: React.FC = () => {
       courtId: selectedCourtId,
       filterTerm: searchTerm || undefined
     }).map(toCaseDto);
-  }, [selectedCourtId, currentUser, searchTerm]);
+  }, [selectedCourtId, currentUser, searchTerm, refreshKey]);
+
+  const caseCounts: Record<string, number> = useMemo(() => {
+    if (!currentUser) return {};
+    const counts: Record<string, number> = {};
+    for (const court of courts) {
+      try {
+        counts[court.id] =
+          USE_CASES.listCourtCases.execute({ actor: currentUser, courtId: court.id }).length;
+      } catch {
+        counts[court.id] = 0;
+      }
+    }
+    return counts;
+  }, [currentUser, courts, refreshKey]);
+
+  const adminUsers = useMemo(() => {
+    if (!currentUser?.isAdmin) return [];
+    return USE_CASES.listUsers.execute({ actor: currentUser }).map(toUserDto);
+  }, [currentUser]);
+
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme);
+  }, [theme]);
 
   const pushToast = (message: string, kind: Toast['kind'] = 'success'): void => {
-    const id = String(Date.now());
-    setToasts((prev) => [...prev, { id, message, kind }]);
+    const id = String(Date.now()) + String(Math.random()).slice(2);
+    setToasts((prev) => [...prev, { id, message, kind }].slice(-4));
     window.setTimeout(() => {
       setToasts((prev) => prev.filter((t) => t.id !== id));
-    }, 4000);
+    }, 3200);
+  };
+
+  const toggleTheme = (): void => {
+    const next: Theme = theme === 'light' ? 'dark' : 'light';
+    setThemeState(next);
+    window.localStorage.setItem('tsj_theme_v3', next);
   };
 
   const authenticate = (user: User, sessionToken: string): void => {
@@ -114,10 +164,31 @@ export const App: React.FC = () => {
     setToken(null);
     setView('home');
     setSelectedCourtId(null);
-    pushToast('Sesión cerrada.', 'info');
+    setSearchTerm('');
+    pushToast('Sesión cerrada correctamente.', 'info');
+  };
+
+  const goHome = (): void => {
+    setView('home');
+    setSelectedCourtId(null);
+    setSearchTerm('');
+  };
+
+  const handleTabSelect = (tab: TabId): void => {
+    if (GATED_TABS.includes(tab) && !currentUser) {
+      setShowAuthModal(true);
+      pushToast('Regístrate o inicia sesión para consultar esta sección.', 'info');
+      return;
+    }
+    setActiveTab((prev) => (prev === tab ? null : tab));
   };
 
   const openCourt = (courtId: string): void => {
+    if (!currentUser) {
+      setShowAuthModal(true);
+      pushToast('Regístrate o inicia sesión para consultar esta sección.', 'info');
+      return;
+    }
     setSelectedCourtId(courtId);
     setSearchTerm('');
     setView('court-cases');
@@ -142,6 +213,7 @@ export const App: React.FC = () => {
     try {
       USE_CASES.createCase.execute({ actor: currentUser, ...input });
       setView('court-cases');
+      setRefreshKey((k) => k + 1);
       pushToast('Expediente radicado correctamente.');
     } catch (error) {
       pushToast(error instanceof Error ? error.message : 'No se pudo radicar.', 'error');
@@ -149,16 +221,20 @@ export const App: React.FC = () => {
   };
 
   const handleAddActuation = (input: {
-    publicId: string;
     activityType: string;
     summary: string;
     signedBy: string;
   }): void => {
-    if (!currentUser) return;
+    if (!currentUser || !selectedCase) return;
     try {
-      const updated = USE_CASES.addActuation.execute({ actor: currentUser, ...input });
+      const updated = USE_CASES.addActuation.execute({
+        actor: currentUser,
+        publicId: selectedCase.publicId,
+        ...input
+      });
       setShowAddActuation(false);
       setSelectedCase(toCaseDto(updated));
+      setRefreshKey((k) => k + 1);
       pushToast('Actuación incorporada.');
     } catch (error) {
       pushToast(error instanceof Error ? error.message : 'No se pudo guardar.', 'error');
@@ -171,7 +247,8 @@ export const App: React.FC = () => {
       USE_CASES.deleteCase.execute({ actor: currentUser, publicId });
       setSelectedCase(null);
       setShowAddActuation(false);
-      pushToast('Expediente dado de baja.', 'info');
+      setRefreshKey((k) => k + 1);
+      pushToast('Expediente dado de baja del registro', 'info');
     } catch (error) {
       pushToast(error instanceof Error ? error.message : 'No se pudo eliminar.', 'error');
     }
@@ -197,99 +274,161 @@ export const App: React.FC = () => {
     }
   };
 
-  const adminUsers = useMemo(() => {
-    if (!currentUser?.isAdmin) return [];
-    return USE_CASES.listUsers.execute({ actor: currentUser }).map(toUserDto);
-  }, [currentUser]);
-
   return (
-    <div className="App">
-      <AppHeader
-        isAuthenticated={currentUser !== null}
-        role={currentUser?.isAdmin ? 'admin' : 'public'}
-        fullName={currentUser?.fullName ?? 'Consulta General'}
-        onHomeClick={() => {
-          setView('home');
-          setSelectedCourtId(null);
-        }}
+    <>
+      <PortalHeader
+        role={role}
+        fullName={currentUser?.fullName ?? 'Regístrate para acceder'}
+        theme={theme}
+        activeTab={activeTab}
+        onTabSelect={handleTabSelect}
+        onHomeClick={goHome}
         onLoginClick={() => setShowAuthModal(true)}
         onLogoutClick={handleLogout}
+        onToggleTheme={toggleTheme}
       />
 
-      <Breadcrumb
-        currentCourtName={selectedCourt?.name ?? null}
-        isAdmin={currentUser?.isAdmin ?? false}
-        onHomeClick={() => {
-          setView('home');
-          setSelectedCourtId(null);
-        }}
-      />
+      <Breadcrumb currentCourtName={selectedCourt?.name ?? null} onHomeClick={goHome} />
 
-      <main className="App-content">
-        {view === 'home' && !currentUser ? (
-          <>
-            <section className="App-hero">
-              <h1>Portal Judicial de la República Bolivariana de Venezuela</h1>
-              <p>Consulte expedientes oficiales en todas las jurisdicciones del TSJ.</p>
-            </section>
-            <section className="App-section">
-              <CourtsGrid courts={courts} onSelectCourt={openCourt} />
-            </section>
-            <section className="App-section">
-              <NewsList news={news} />
-            </section>
-          </>
-        ) : null}
-
-        {view === 'home' && currentUser ? (
-          <>
-            <section className="App-hero">
-              <h1>Panel del Portal Judicial</h1>
-              <p>Seleccione un tribunal para consultar expedientes.</p>
-            </section>
-            <section className="App-section">
-              <CourtsGrid courts={courts} onSelectCourt={openCourt} />
-            </section>
-            {currentUser.isAdmin ? (
-              <section className="App-section">
-                <AdminUsersList users={adminUsers} currentUserId={currentUser.id} onPromote={handlePromote} />
-              </section>
-            ) : null}
-            <section className="App-section">
-              <h2>Leyes y normativa venezolana</h2>
-              <LawsCatalog categories={laws} />
-            </section>
-            <section className="App-section">
-              <NewsList news={news} />
-            </section>
-          </>
-        ) : null}
-
-        {view === 'court-cases' && selectedCourt ? (
-          <section className="App-section App-section-cases">
-            <h2>{selectedCourt.name}</h2>
-            <PublicNoticeBanner courtName={selectedCourt.name} />
-            <div className="App-cases-toolbar">
-              <SearchBox
-                value={searchTerm}
-                onSearch={(term) => {
-                  setSearchTerm(term);
-                  handleSaveSearch(term);
-                }}
-                placeholder="Buscar N° de expediente, carátula o parte…"
-              />
-              {currentUser?.isAdmin ? (
-                <button type="button" className="App-btn-primary" onClick={() => setView('new-case')}>
-                  Nueva Causa
-                </button>
-              ) : null}
+      <main className="app-content">
+        {view === 'home' ? (
+          <section id="view-courts" className="view-section active">
+            <div className="tsj-hero-header">
+              <div className="tsj-hero-content">
+                <div className="tsj-badge-official">
+                  <i className="fa-solid fa-certificate" /> Tribunal Supremo de Justicia •
+                  Plataforma Digital
+                </div>
+                <h1>Portal Judicial de la República Bolivariana de Venezuela</h1>
+                <p>
+                  Consulte, descargue y tramite expedientes oficiales en todas las
+                  circunscripciones judiciales y salas del Tribunal Supremo de Justicia.
+                </p>
+                <div className="service-signals" aria-label="Características del servicio">
+                  <span>
+                    <i className="fa-solid fa-magnifying-glass" /> Consulta por tribunal o
+                    expediente
+                  </span>
+                  <span>
+                    <i className="fa-solid fa-lock-open" /> Acceso público de solo lectura
+                  </span>
+                  <span>
+                    <i className="fa-solid fa-headset" /> Orientación con asistente virtual
+                  </span>
+                </div>
+              </div>
             </div>
-            <CasesList legalCases={cases} onOpenCase={openCase} />
+
+            {activeTab === 'courts-panel' ? (
+              <CourtsGrid
+                courts={courts}
+                selectedCourtId={selectedCourtId}
+                caseCounts={caseCounts}
+                active
+                onSelectCourt={openCourt}
+              />
+            ) : null}
+
+            {activeTab === 'laws-panel' ? (
+              <LawsCatalog
+                categories={laws}
+                active
+                onSelectLaw={(title) => pushToast(`Ley seleccionada: ${title}`, 'info')}
+              />
+            ) : null}
+
+            {activeTab === 'institution-panel' ? <InstitutionPanel active /> : null}
+            {activeTab === 'services-panel' ? <ServicesPanel active /> : null}
+            {activeTab === 'agenda-panel' ? <AgendaPanel active /> : null}
+
+            <NewsList news={news} />
+
+            {currentUser?.isAdmin ? (
+              <AdminUsersList
+                users={adminUsers}
+                currentUserId={currentUser.id}
+                onPromote={handlePromote}
+              />
+            ) : null}
           </section>
         ) : null}
 
-        {view === 'new-case' && selectedCourt && currentUser ? (
-          <section className="App-section">
+        {view === 'court-cases' && selectedCourt ? (
+          <section id="view-court-cases" className="view-section active">
+            <div className="tribunal-header-banner">
+              <div>
+                <span className="case-nue-tag" id="court-header-category">
+                  {selectedCourt.category}
+                </span>
+                <h2
+                  id="court-header-title"
+                  style={{
+                    fontFamily: 'var(--font-title)',
+                    fontSize: '1.45rem',
+                    color: 'var(--tsj-blue-dark)',
+                    marginTop: 4
+                  }}
+                >
+                  {selectedCourt.name}
+                </h2>
+                <p
+                  id="court-header-desc"
+                  style={{ color: 'var(--text-muted)', fontSize: '0.9rem', marginTop: 2 }}
+                >
+                  {selectedCourt.description}
+                </p>
+              </div>
+              <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
+                <button type="button" className="btn-main btn-outline-clean" onClick={goHome}>
+                  <i className="fa-solid fa-arrow-left" /> Volver a Tribunales
+                </button>
+                {currentUser?.isAdmin ? (
+                  <button
+                    type="button"
+                    className="btn-main btn-primary-clean"
+                    id="btn-admin-new-case"
+                    onClick={() => setView('new-case')}
+                  >
+                    <i className="fa-solid fa-plus" /> Nueva Causa
+                  </button>
+                ) : null}
+              </div>
+            </div>
+
+            {!currentUser?.isAdmin ? <PublicNoticeBanner /> : null}
+
+            <SearchBox
+              value={searchTerm}
+              placeholder="Buscar en este tribunal por N° de expediente (NUE), carátula, parte procesal o cédula..."
+              onSearch={(term) => {
+                setSearchTerm(term);
+                handleSaveSearch(term);
+              }}
+            />
+
+            <CasesList
+              legalCases={cases}
+              courtName={selectedCourt.name}
+              onOpenCase={openCase}
+            />
+          </section>
+        ) : null}
+
+        {view === 'new-case' && selectedCourt && currentUser?.isAdmin ? (
+          <section id="view-new-case" className="view-section active">
+            <div className="section-headline">
+              <div>
+                <h2>Radicación de Nueva Causa en el TSJ</h2>
+                <p id="new-case-court-subtitle">{selectedCourt.name}</p>
+              </div>
+              <button
+                type="button"
+                className="btn-main btn-outline-clean"
+                onClick={() => setView('court-cases')}
+              >
+                <i className="fa-solid fa-arrow-left" /> Volver al Listado
+              </button>
+            </div>
             <NewCaseForm
               court={selectedCourt}
               onSubmit={handleCreateCase}
@@ -300,30 +439,23 @@ export const App: React.FC = () => {
       </main>
 
       {showAuthModal ? (
-        <div className="ModalOverlay" role="dialog" aria-modal="true">
-          <div className="App-auth-modal">
-            <button
-              type="button"
-              className="App-auth-close"
-              aria-label="Cerrar"
-              onClick={() => setShowAuthModal(false)}
-            >
-              ×
-            </button>
-            <AuthForm
-              mode={authMode}
-              feedback={authFeedback}
-              onLogin={handleLogin}
-              onRegister={handleRegister}
-              onSwitchMode={setAuthMode}
-            />
-          </div>
-        </div>
+        <AuthForm
+          mode={authMode}
+          feedback={authFeedback}
+          onClose={() => setShowAuthModal(false)}
+          onLogin={handleLogin}
+          onRegister={handleRegister}
+          onSwitchMode={(mode) => {
+            setAuthMode(mode);
+            setAuthFeedback(null);
+          }}
+        />
       ) : null}
 
       {selectedCase && !showAddActuation ? (
         <CaseDetailModal
           legalCase={selectedCase}
+          courtName={selectedCourt?.name}
           canEdit={currentUser?.isAdmin ?? false}
           onClose={() => setSelectedCase(null)}
           onDelete={handleDeleteCase}
@@ -331,8 +463,9 @@ export const App: React.FC = () => {
         />
       ) : null}
 
-      {selectedCase && showAddActuation && currentUser ? (
+      {selectedCase && showAddActuation && currentUser?.isAdmin ? (
         <AddActuationForm
+          publicId={selectedCase.publicId}
           onSave={handleAddActuation}
           onCancel={() => {
             setShowAddActuation(false);
@@ -341,11 +474,10 @@ export const App: React.FC = () => {
         />
       ) : null}
 
-      <ToastStack
-        toasts={toasts}
-        onDismiss={(id) => setToasts((prev) => prev.filter((t) => t.id !== id))}
-      />
-    </div>
+      <ToastStack toasts={toasts} />
+
+      <VirtualAssistant />
+    </>
   );
 };
 

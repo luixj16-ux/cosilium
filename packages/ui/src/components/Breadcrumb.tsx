@@ -2,33 +2,37 @@ import React from 'react';
 
 export interface BreadcrumbProps {
   currentCourtName: string | null;
-  isAdmin: boolean;
   onHomeClick: () => void;
 }
 
 /**
- * Breadcrumb — Dumb Component. Migas de pan: tribunales → tribunal.
- * Muestra si el actor es admin una etiqueta de rol.
+ * Breadcrumb — Dumb Component. Ruta de navegación + aviso institucional.
  */
-export const Breadcrumb: React.FC<BreadcrumbProps> = ({
-  currentCourtName,
-  isAdmin,
-  onHomeClick
-}) => {
+export const Breadcrumb: React.FC<BreadcrumbProps> = ({ currentCourtName, onHomeClick }) => {
   return (
-    <nav className="Breadcrumb" aria-label="Ruta de navegación">
-      <button type="button" className="Breadcrumb-link" onClick={onHomeClick}>
-        Tribunales de Venezuela
-      </button>
-      {currentCourtName ? (
-        <>
-          <span className="Breadcrumb-separator">/</span>
-          <span className="Breadcrumb-current">{currentCourtName}</span>
-        </>
-      ) : null}
-      <span className="Breadcrumb-role" data-admin={isAdmin}>
-        {isAdmin ? 'Administración' : 'Consulta pública'}
-      </span>
-    </nav>
+    <div className="breadcrumb-bar">
+      <div className="breadcrumb-nav">
+        <button
+          type="button"
+          className="breadcrumb-link"
+          onClick={onHomeClick}
+        >
+          <i className="fa-solid fa-building-columns" /> Tribunales de Venezuela
+        </button>
+        {currentCourtName ? <span className="breadcrumb-separator">/</span> : null}
+        {currentCourtName ? (
+          <span
+            className="breadcrumb-current-court"
+            style={{ fontWeight: 700, color: 'var(--tsj-blue-dark)' }}
+          >
+            {currentCourtName}
+          </span>
+        ) : null}
+      </div>
+      <div className="breadcrumb-role-notice" id="breadcrumb-role-notice">
+        <i className="fa-solid fa-shield-halved" style={{ color: 'var(--tsj-blue-primary)' }} />
+        Plataforma Oficial del Poder Judicial
+      </div>
+    </div>
   );
 };
