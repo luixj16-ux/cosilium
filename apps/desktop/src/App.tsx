@@ -1,26 +1,10 @@
-import React from 'react';
-import { DocumentUploadList } from '@consilium/ui';
-import type { DocumentPayload } from '@consilium/ui';
-
-const DEMO_PENDING: DocumentPayload[] = [
-  { id: 'doc_desktop_1', name: 'expediente-digital.pdf', sizeInBytes: 819200 },
-  { id: 'doc_desktop_2', name: 'escaneo-carpeta-ingesta.png', sizeInBytes: 4456448 }
-];
+import { PortalApp } from '@consilium/portal';
 
 /**
- * App (escritorio) — Consume la capa de aplicación (mismo core).
- * El manejo nativo de archivos masivos en disco se hace vía Tauri
- * (ver rust/tauri-native y apps/desktop/src-tauri).
+ * App (@consilium/desktop) — Shell fino de Tauri.
+ * El portal judicial completo vive en @consilium/portal; aquí solo se monta
+ * dentro del WebView nativo para que el deploy desktop luzca igual que web.
  */
-export const App: React.FC = () => {
-  const handleCancelUpload = (id: string): void => {
-    console.info('Cancelar subida solicitada (desktop):', id);
-  };
+export const App: React.FC = () => <PortalApp />;
 
-  return (
-    <main>
-      <h1>CONSILIUM Desktop</h1>
-      <DocumentUploadList pendingDocuments={DEMO_PENDING} onCancelUpload={handleCancelUpload} />
-    </main>
-  );
-};
+export default App;

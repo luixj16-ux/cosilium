@@ -5,6 +5,7 @@
     "lib": ["ES2022", "DOM", "DOM.Iterable"],
     "types": ["vite/client"],
     "paths": {
+      "@consilium/portal": ["../../packages/portal/src/index.ts"],
       "@consilium/core": ["../../packages/core/src/index.ts"],
       "@consilium/contracts": ["../../packages/contracts/src/index.ts"],
       "@consilium/ui": ["../../packages/ui/src/index.ts"]
