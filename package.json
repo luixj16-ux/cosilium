@@ -15,11 +15,11 @@
     "test": "npm run test --workspaces --if-present",
     "test:core": "npm run test --workspace @consilium/core",
     "lint": "npm run lint --workspaces --if-present",
-    "lint:conventions": "node .agents/scripts/check-conventions.mjs",
+    "lint:conventions": "node .agent/scripts/check-conventions.mjs",
     "dev:web": "npm run dev --workspace @consilium/web",
     "dev:desktop": "npm run dev --workspace @consilium/desktop",
     "dev:mobile": "npm run dev --workspace @consilium/mobile",
-    "deploy:local": "npm run build --workspace @consilium/web && bash .agents/scripts/deploy-local.sh"
+    "deploy:local": "npm run build --workspace @consilium/web && bash .agent/scripts/deploy-local.sh"
   },
   "engines": {
     "node": ">=22"

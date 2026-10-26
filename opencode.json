@@ -1,0 +1,26 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "agent": {
+    "plan": {
+      "mode": "primary",
+      "model": "auto",
+      "description": "Planificador estratégico CONSILIUM",
+      "prompt": "Lee AGENTS.md, .agent/rules/global-context/global-context.md, checklist-verify.md, .bitacoras/index.md, .bitacoras/actual.md, .agent/workflows/git-workflow.md. NUNCA trabajes en main/dev.",
+      "tools": { "write": true, "edit": false, "bash": true }
+    },
+    "build": {
+      "mode": "primary",
+      "model": "auto",
+      "description": "Constructor principal CONSILIUM",
+      "prompt": "Lee AGENTS.md, global-context.md, checklist-verify.md, design-system/index.md, bitacoras, git-workflow.md. Prioriza DDD, TDD, UI dumb, offline‑first.",
+      "tools": { "write": true, "edit": true, "bash": true }
+    },
+    "code-reviewer": {
+      "mode": "subagent",
+      "model": "auto",
+      "description": "Revisor de seguridad, rendimiento y límites DDD",
+      "prompt": "Lee AGENTS.md, global-context.md, checklist-verify.md, design-system/index.md, bitacoras, git-workflow.md. Enfócate en typecheck, cargo clippy, dependencias hacia adentro, UI dumb.",
+      "tools": { "write": false, "edit": true }
+    }
+  }
+}
