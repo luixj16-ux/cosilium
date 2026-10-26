@@ -1,10 +1,10 @@
-# CONSILIUM — Guía de Agente (Fusión CONSILIUM + Condominios Venezuela)
+# CONSILIUM — Guía de Agente
 
 > **Versión fusionada** – Reglas supremas de ejecución (Condominios) + Reglas de arquitectura DDD/TDD/Offline (CONSILIUM).
 
 ---
 
-## 0️⃣ REGLAS SUPREMAS DE EJECUCIÓN (Condominios) — NO NEGOCIABLES
+## 0️⃣ REGLAS SUPREMAS DE EJECUCIÓN — NO NEGOCIABLES
 
 ### 0.1 PLAN FIRST — Antes de cualquier código
 - **DEBES** crear un plan detallado de la tarea y **MOSTRARLO** al usuario.

@@ -19,18 +19,17 @@
 7. [Sistema de Seguridad y Autenticación](#7-sistema-de-seguridad-y-autenticación)
 8. [Sistema de Roles y Permisos](#8-sistema-de-roles-y-permisos)
 9. [Sistema de Diseño y Estilos](#9-sistema-de-diseño-y-estilos)
-10. [Configuración Agentica — AGENTS.md y Skills n8n](#10-configuración-agentica--agentsmd-y-skills-n8n)
-11. [Configuración MCP y n8n](#11-configuración-mcp-y-n8n)
-12. [Patrones de Diseño de Workflows n8n](#12-patrones-de-diseño-de-workflows-n8n)
-13. [Datos de Demostración y Dominio](#13-datos-de-demostración-y-dominio)
-14. [Control de Versiones (Git)](#14-control-de-versiones-git)
-15. [Herramientas de Desarrollo](#15-herramientas-de-desarrollo)
-16. [Arquitectura de Despliegue n8n Self-Hosted](#16-arquitectura-de-despliegue-n8n-self-hosted)
-17. [Seguridad — Mejores Prácticas Documentadas](#17-seguridad--mejores-prácticas-documentadas)
-18. [Estado Actual vs. Estado Futuro](#18-estado-actual-vs-estado-futuro)
-19. [Deuda Técnica y Riesgos](#19-deuda-técnica-y-riesgos)
-20. [Hoja de Ruta de Evolución](#20-hoja-de-ruta-de-evolución)
-21. [Glosario Técnico](#21-glosario-técnico)
+10. [Configuración MCP y n8n](#11-configuración-mcp-y-n8n)
+11. [Patrones de Diseño de Workflows n8n](#12-patrones-de-diseño-de-workflows-n8n)
+12. [Datos de Demostración y Dominio](#13-datos-de-demostración-y-dominio)
+13. [Control de Versiones (Git)](#14-control-de-versiones-git)
+14. [Herramientas de Desarrollo](#15-herramientas-de-desarrollo)
+15. [Arquitectura de Despliegue n8n Self-Hosted](#16-arquitectura-de-despliegue-n8n-self-hosted)
+16. [Seguridad — Mejores Prácticas Documentadas](#17-seguridad--mejores-prácticas-documentadas)
+17. [Estado Actual vs. Estado Futuro](#18-estado-actual-vs-estado-futuro)
+18. [Deuda Técnica y Riesgos](#19-deuda-técnica-y-riesgos)
+19. [Hoja de Ruta de Evolución](#20-hoja-de-ruta-de-evolución)
+20. [Glosario Técnico](#21-glosario-técnico)
 
 ---
 
@@ -758,137 +757,6 @@ Import vía `@import url('https://fonts.googleapis.com/...')`.
 @keyframes assistantIn { from { opacity:0; transform: translateY(10px) scale(0.98); } }
 @keyframes slideIn { from { transform: translateY(12px); opacity:0; } }
 ```
-
----
-
-## 10. Configuración Agentica — AGENTS.md y Skills n8n
-
-### 10.1 AGENTS.md — Instrucciones para Agentes de IA
-
-El archivo `AGENTS.md` en la raíz define el rol del agente como **experto en n8n automation usando n8n-MCP tools**. Establece 5 principios centrales:
-
-1. **Ejecución Silenciosa** — Ejecutar herramientas sin comentarios, responder solo después de completar.
-2. **Ejecución en Paralelo** — Operaciones independientes se ejecutan simultáneamente.
-3. **Plantillas Primero** — Siempre verificar templates n8n antes de construir desde cero.
-4. **Validación Multi-nivel** — `validate_node minimal → full → validate_workflow`.
-5. **Nunca Confiar en Defaults** — Configurar explícitamente todos los parámetros.
-
-**Proceso de workflow de 7 pasos:**
-1. `tools_documentation()` para mejores prácticas
-2. Descubrimiento de templates (`search_templates` en 4 modos)
-3. Descubrimiento de nodos (`search_nodes`)
-4. Fase de configuración (`get_node` en 4 niveles de detalle)
-5. Fase de validación (`validate_node` minimal/full)
-6. Fase de construcción (desde template validado)
-7. Validación final del workflow completo
-
-### 10.2 Sistema de Skills (15 skills)
-
-El directorio `.agents/skills/` contiene una **librería completa de skills n8n** organizados en jerarquía:
-
-#### Skills de Uso de Herramientas
-| Skill | Propósito |
-|---|---|
-| **using-n8n-mcp-skills** | Router entry-point: rutea al skill correcto, reglas no negociables, índice de skills |
-| **n8n-mcp-tools-expert** | Guía maestra de uso de herramientas MCP: selección, formatos de nodos, patrones |
-
-#### Skills de Arquitectura
-| Skill | Propósito |
-|---|---|
-| **n8n-workflow-patterns** | 6 patrones arquitectónicos (webhook, API, database, AI, scheduled, batch) |
-| **n8n-subworkflows** | Workflows reutilizables y componibles (Execute Workflow, all/each) |
-
-#### Skills de Configuración
-| Skill | Propósito |
-|---|---|
-| **n8n-node-configuration** | Configuración por operación, dependencias, displayOptions |
-| **n8n-expression-syntax** | Sintaxis de expresiones `{{ }}`, `$json`, `$node` |
-| **n8n-agents** | Diseño de agentes AI (model/slots, tools, memory, outputParser, RAG, human review) |
-
-#### Skills de Código
-| Skill | Propósito |
-|---|---|
-| **n8n-code-javascript** | Code nodes JS: `$input`, `$json`, `$helpers`, DateTime, SplitInBatches |
-| **n8n-code-python** | Code nodes Python: `_input`, `_json`, límites de stdlib |
-| **n8n-code-tool** | Custom Code Tool (agent-callable): string in/out, sin `$fromAI`/`$input` |
-
-#### Skills de Datos/Errores
-| Skill | Propósito |
-|---|---|
-| **n8n-binary-and-data** | Manejo de archivos/binarios: `$binary`, CDN, boundary agent-tool |
-| **n8n-error-handling** | Manejo de errores: onError, continueErrorOutput, retries, 4xx/5xx |
-| **n8n-validation-expert** | Interpretación de errores de validación, auto-fix, checklist |
-
-#### Skills de Infraestructura
-| Skill | Propósito |
-|---|---|
-| **n8n-self-hosting** | Despliegue de n8n self-hosted (Docker Compose + Caddy, single/queue mode) |
-| **n8n-multi-instance** | Gestión de múltiples instancias n8n (targeting, fail-closes) |
-
-### 10.3 Reglas No Negociables (del router skill)
-
-1. **Invoca el skill relevante antes de cualquier acción n8n**
-2. **Valida Y verifica antes de activar** — `validate_workflow` antes, `n8n_get_workflow` después para inspeccionar `connections`
-3. **Los secretos nunca van en campos de texto** — usar sistema de credentials n8n
-
-### 10.4 Tabla de Red Flags (auto-detección de errores)
-
-| Pensamiento | Invocar Skill |
-|---|---|
-| "Este workflow es simple, lo construyo" | `n8n-workflow-patterns` |
-| "Añado un nodo Set para mapear" | `n8n-expression-syntax` |
-| "Usaré un Code node, es más fácil" | `n8n-code-javascript` |
-| "El usuario mencionó datos, escribiré Python" | `n8n-code-javascript` (default JS) |
-| "Estoy escribiendo código que un agente AI llamará" | `n8n-code-tool` |
-| "Matemáticas de fechas — uso un nodo DateTime" | `n8n-expression-syntax` |
-| "Voy a cablear un Merge con 3 fuentes" | `n8n-node-configuration` |
-| "La validación pasó, activo ya" | `n8n-validation-expert` + `n8n-workflow-patterns` |
-| "La validación lanzó un error que no entiendo" | `n8n-validation-expert` |
-| "Referenciaré `$json.x` aquí" | `n8n-expression-syntax` |
-| "Este webhook es solo happy-path" | `n8n-error-handling` |
-| "Pasaré este archivo por JSON" | `n8n-binary-and-data` |
-| "Conectaré un agente AI con herramientas" | `n8n-agents` |
-| "Copiaré esta lógica a otro workflow" | `n8n-subworkflows` |
-| "Crearé esa credential / abriré ese workflow" (multi-instancia) | `n8n-multi-instance` |
-
-### 10.5 Herramientas MCP Documentadas
-
-**Documentación y descubrimiento:**
-- `tools_documentation` — meta-docs
-- `search_nodes` — encontrar nodos por keyword
-- `get_node` — info del nodo (short-form nodeType: `nodes-base.set`)
-- `validate_node` — validar un nodo aislado
-- `search_templates` / `get_template` — librería de templates
-
-**Build y edición:**
-- `n8n_create_workflow` — crear desde JSON completo
-- `n8n_update_partial_workflow` — edición incremental (addNode, updateNode, patchNodeField, addConnection, setNodeGroups, activateWorkflow)
-- `n8n_update_full_workflow` — reemplazo completo
-- `n8n_autofix_workflow` — auto-corrección
-- `n8n_deploy_template` — desplegar template
-
-**Validación:**
-- `validate_workflow` — JSON complete (node types LONG-form `n8n-nodes-base.set`)
-- `n8n_validate_workflow` — por ID
-
-**Inspección y ciclo de vida:**
-- `n8n_get_workflow` — fetch con modos (full/structure/active/filtered/minimal)
-- `n8n_list_workflows`, `n8n_delete_workflow`, `n8n_workflow_versions`, `n8n_instances`, `n8n_health_check`
-
-**Test y ejecución:**
-- `n8n_test_workflow` — ejecuta nodos reales (efectos secundarios)
-- `n8n_executions` — listar/inspeccionar ejecuciones
-- `n8n_evaluations` — evaluaciones (n8n ≥ 2.30/2.32)
-
-**Datos, folders, credentials, auditoría:**
-- `n8n_manage_datatable` — Data Table CRUD
-- `n8n_manage_folders` — Folder CRUD
-- `n8n_manage_credentials` — Credential CRUD + getSchema
-- `n8n_audit_instance` — auditoría de seguridad
-
-**Trampa de formato de node type:**
-- `get_node`/`validate_node` → SHORT form (`nodes-base.set`)
-- Workflow JSON en `validate_workflow`/`n8n_create_workflow` → LONG form (`n8n-nodes-base.set`)
 
 ---
 
