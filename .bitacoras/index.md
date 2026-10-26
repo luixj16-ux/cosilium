@@ -6,15 +6,18 @@
 ---
 
 ## 🚩 ESTADO ACTUAL
-- **Tarea activa:** *ninguna*
-- **Última completada:** *Inicialización agentica*
-- **Branch actual:** `dev`
-- **Historial vacío** (empezar en `#001`).
+- **Tarea activa:** `#002 - Eliminar CONSILIUM.md e Indexar Contenido`
+- **Última completada:** `#001 - Configuración Agentica Inicial`
+- **Branch actual:** `dev` (feature branch: `docs/remove-consilium-md`)
+- **Historial:** `#001` completada.
 
 ---
 
 ## 📂 HISTORIAL DE TAREAS
 *(se irá poblando conforme se completen tareas)*
+
+- **#001** ✅ Configuración Agentica Inicial — 2026-10-25
+- **#002** 🟡 Eliminar CONSILIUM.md e Indexar Contenido — 2026-10-26 (EN CURSO)
 
 ---
 
@@ -86,4 +89,4 @@
 
 ---
 
-*Actualizado: 2026-10-25* *Inicialización agentica completada — estructura .agent/, skills, workflows, bitácoras, opencode.json creados; quality gates pendientes*
+*Actualizado: 2026-10-26* *Tarea #002 en curso: auditoría CONSILIUM.md → indexación en .agent/rules/*
