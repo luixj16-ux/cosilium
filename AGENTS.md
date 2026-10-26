@@ -38,7 +38,7 @@ Al terminar **TODAS** las fases:
 1. **ESPERAR** confirmación del usuario de que la TAREA ESTÁ COMPLETADA.
 2. **ACTUALIZAR BITÁCORAS** (`index.md` + `actual.md` + crear `#XXX-tarea.md`).
 3. **AUTO-MANTENIMIENTO (Post-Flight)** — según `.agent/rules/global-context/self-maintenance.md`.
-4. **COMMIT DIRECTO EN `dev`** (push). **NUNCA PR**.
+4. **CREAR PULL REQUEST HACIA `dev`** — siguiendo `.agent/workflows/git-workflow.md` (rama de trabajo → PR → merge a `dev`). **NUNCA commit directo en `dev` ni en `main`**.
 
 ### 0.6 ROOT CAUSE ANALYSIS OBLIGATORIO
 > Parchear síntomas sin causa raíz genera iteraciones infinitas.
@@ -81,7 +81,7 @@ Para **cualquier tarea** (Exenta o Trackeable):
    - `.agent/rules/checklist-verify.md`
    - `.agent/workflows/git-workflow.md`
 3. **INICIALIZACIÓN BITÁCORA** (solo TRACKEABLE):
-   - Usar `@git-branch-formatter` para nombre (aunque commit directo en `dev`).
+   - Usar `@git-branch-formatter` para nombre de la rama de trabajo.
    - Crear `.bitacoras/###-nombre-tarea.md` **ANTES** de escribir código (plantilla `00-plantilla.md`).
    - NO escribir código hasta que bitácora exista.
 4. **PROCEDER** solo tras completar pasos anteriores.
@@ -94,7 +94,7 @@ Para **cualquier tarea** (Exenta o Trackeable):
   3. **Actualizar `actual.md` en tiempo real** tras cada hito (checks `[x]`, punto de control).
   4. Al finalizar → `✅ COMPLETADO`, archivar, limpiar `actual.md` (mantener formato plantilla).
   5. **POST-FLIGHT** (self-maintenance.md) → actualizar configs si aplica.
-  6. Seguir `.agent/workflows/git-workflow.md` (commit directo en `dev`).
+  6. Seguir `.agent/workflows/git-workflow.md` (rama de trabajo → PR → merge a `dev`).
 
 ---
 

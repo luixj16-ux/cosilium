@@ -1,6 +1,6 @@
 ---
 name: git-branch-formatter
-description: Formatea nombres de ramas git según convención CONSILIUM. Usar cuando se cree una nueva rama (aunque en CONSILIUM se hace commit directo en dev, la skill sirve para命名 convenciones en otros contextos).
+description: Formatea nombres de ramas git según convención CONSILIUM. Usar SIEMPRE al crear una nueva rama de trabajo desde `dev` (feature branch → PR → merge a `dev`).
 ---
 
 # Git Branch Naming Convention — CONSILIUM

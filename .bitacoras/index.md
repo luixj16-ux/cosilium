@@ -41,10 +41,10 @@
 
 ### 🔧 Git Workflow (CUMPLIMIENTO OBLIGATORIO)
 - **.agent/workflows/git-workflow.md** - Flujo de trabajo completo (9 pasos)
-- **Regla:** NUNCA trabajar en `main`; trabajo directo en `dev`
-- **Regla:** Usar `@git-branch-formatter` para naming (aunque no se cree rama)
+- **Regla:** NUNCA trabajar en `main` ni en `dev`; trabajo directo solo en feature branch
+- **Regla:** Usar `@git-branch-formatter` para naming
 - **Regla:** Usar `@git-commit-formatter` para mensajes de commit
-- **Regla:** NO PR — push directo a `dev` tras aprobación y post-flight
+- **Regla:** PR — directo solo a `dev` tras aprobación y post-flight
 
 ### 📋 Checklist de Verificación
 - **.agent/rules/checklist-verify.md** - Checklist obligatorio antes de cada tarea
@@ -67,7 +67,7 @@
 
 3.  **PREPARACIÓN DE ENTORNO (Git):**
     *   `git checkout dev && git pull` (sincronizar con dev).
-    *   *No se crea rama de trabajo* (commit directo en dev).
+    *   Crear rama de trabajo desde `dev` usando `@git-branch-formatter`.
 
 4.  **PLANIFICACIÓN Y EJECUCIÓN:**
     *   Presentar Plan de Acción detallado (PLAN FIRST).
@@ -76,9 +76,10 @@
 
 5.  **FINALIZACIÓN Y REGISTRO:**
     *   Ejecutar **BUILDS GATE** (6 comandos) antes de commit.
-    *   Commit usando `@git-commit-formatter`.
-    *   Push directo a `dev`.
-    *   Actualizar `.bitacoras/actual.md` y crear/actualizar bitácora correspondiente según `00-plantilla.md`.
+    *   Commit en rama de trabajo usando `@git-commit-formatter`.
+    *   Push a rama de trabajo remota.
+    *   Crear **Pull Request hacia `dev`** (base: `dev`).
+    *   Tras merge aprobado, actualizar `.bitacoras/actual.md` y crear/actualizar bitácora según `00-plantilla.md`.
     *   **POST-FLIGHT:** self-maintenance.md → actualizar configs si aplica.
     *   Confirmar completado → cerrar tarea.
 ```
