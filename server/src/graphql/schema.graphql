@@ -1,0 +1,82 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# CONSILIUM Server — Schema GraphQL (FASE 2 · diferido)
+# ─────────────────────────────────────────────────────────────────────────────
+# Este archivo es la FUENTE DE VERDAD del contrato GraphQL. Desde aquí se
+# genera `packages/contracts/src/graphql/generated-types.ts` con graphql-codegen
+# (ver nota en ese archivo).
+#
+# Semántica de sync (append-only):
+#   • El cliente crea `Document` localmente y lo encola en `document_outbox`.
+#   • `verifyDocumentsExistence` permite al cliente pedir la lista de FileHash
+#     ya conocidos por la nube → los duplicados no se vuelven a subir.
+#   • `presignedUploadUrl` entrega una URL de carga directa a Object Storage
+#     (S3-compatible); el binario nunca pasa por el API server.
+#   • Corte de red del lado del cliente: NO pierde trabajo (estado FAILED es
+#     reintentable por el SynchronizePendingDocumentsUseCase).
+
+scalar DateTime
+scalar JSON
+
+enum DocumentStatus {
+  PENDING
+  PENDING_UPLOAD
+  UPLOADED
+  FAILED
+}
+
+enum DocumentExtension {
+  PDF
+  JPEG
+  PNG
+}
+
+input UploadDocumentInput {
+  id: String!
+  name: String!
+  contentType: String!
+  sizeInBytes: Int!
+  fileHash: String!
+}
+
+type Document {
+  id: String!
+  name: String!
+  extension: DocumentExtension!
+  pageCount: Int!
+  sizeInBytes: Int!
+  fileHash: String
+  status: DocumentStatus!
+  userId: String!
+  createdAt: DateTime!
+}
+
+type ExistenceVerificationResult {
+  existingHashes: [String!]!
+}
+
+type PresignedUploadUrl {
+  url: String!
+  storageKey: String!
+  expiresInSeconds: Int!
+}
+
+type Query {
+  document(id: String!): Document
+  documents(userId: String!): [Document!]!
+  verifyDocumentsExistence(hashes: [String!]!): ExistenceVerificationResult!
+}
+
+type Mutation {
+  presignedUploadUrl(input: UploadDocumentInput!): PresignedUploadUrl!
+}
+
+# Eventos de salida (consumibles por integrations n8n en fase posterior):
+#   tipo = "metadata_registered" | "duplicate_detected" | "upload_failed"
+type DocumentOutboxEvent {
+  documentId: String!
+  userId: String!
+  fileHash: String
+  tipo: String!
+  createdAt: DateTime!
+  payload: JSON!
+}

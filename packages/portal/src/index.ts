@@ -1,0 +1,1 @@
+export { PortalApp, default } from './PortalApp';

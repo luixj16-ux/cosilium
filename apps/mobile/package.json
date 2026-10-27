@@ -1,0 +1,33 @@
+{
+  "name": "@consilium/mobile",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "CONSILIUM Mobile — App Android/iOS con Capacitor v6 (Ionic) + React. Ejecuta la misma app React en un WebView nativo (≈100% código compartido).",
+  "scripts": {
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "build": "vite build",
+    "dev": "vite",
+    "cap:sync": "cap sync",
+    "cap:add:android": "cap add android",
+    "cap:add:ios": "cap add ios"
+  },
+  "dependencies": {
+    "@capacitor/core": "^6.2.0",
+    "@consilium/contracts": "*",
+    "@consilium/core": "*",
+    "@consilium/ui": "*",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@capacitor/android": "^6.2.0",
+    "@capacitor/cli": "^6.2.0",
+    "@capacitor/ios": "^6.2.0",
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "@vitejs/plugin-react": "^4.3.4",
+    "typescript": "^5.7.2",
+    "vite": "^7.0.0"
+  }
+}
