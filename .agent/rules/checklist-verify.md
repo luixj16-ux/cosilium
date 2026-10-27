@@ -35,10 +35,10 @@ Este archivo es la fuente de verdad para verificar que sigo las reglas del proye
 
 ### 3. Git Workflow (Para cualquier cambio de código)
 - [ ] Paso 1: Sincronizar con `dev` (`git checkout dev && git pull`)
-- [ ] Paso 2: **No se crea rama de trabajo** (commit directo en `dev`)
-- [ ] Paso 3: Desarrollo (implementar cambios por fases)
-- [ ] Paso 4: Commit usando `@git-commit-formatter`
-- [ ] Paso 5: Push a `dev`
+- [ ] Paso 2: Crear rama de trabajo desde `dev` usando `@git-branch-formatter`
+- [ ] Paso 3: Desarrollo (implementar cambios por fases con STOPS)
+- [ ] Paso 4: Commit en rama de trabajo usando `@git-commit-formatter`
+- [ ] Paso 5: Push a rama de trabajo remota
 
 ### 3.1. Creación de Bitácora (TRACKEABLE)
 - [ ] Crear archivo `.bitacoras/###-nombre-tarea.md` con plantilla ANTES de escribir código
@@ -80,7 +80,7 @@ Este archivo es la fuente de verdad para verificar que sigo las reglas del proye
   - Contracts: `@consilium/contracts` (GraphQL DTOs)
 - [ ] Si es funcionalidad nueva: Modelo + Puerto + UseCase + Repositorio + UI dumb
 
-### 6. Post-Flight — Auto-Mantenimiento (Paso 4.5 de AGENTS.md)
+### 6. Post-Flight — Auto-Mantenimiento (Paso 4 de AGENTS.md)
 > ⚠️ OBLIGATORIO: Ejecutar DESPUÉS de que la bitácora se marque como COMPLETADO y ANTES del Push (Paso 7). No saltar. No excepciones.
 
 #### 6.1. Leer self-maintenance.md
@@ -101,7 +101,7 @@ Este archivo es la fuente de verdad para verificar que sigo las reglas del proye
 - [ ] `cargo check --workspace --target wasm32-unknown-unknown` — 0 errores
 
 ### 6.5. SECUENCIA FINAL OBLIGATORIA
-> ⚠️ OBLIGATORIO: Ejecutar DESPUÉS de completar TODAS las fases de implementación y ANTES de push.
+> ⚠️ OBLIGATORIO: Ejecutar DESPUÉS de completar TODAS las fases de implementación y ANTES de crear PR.
 
 - [ ] **Paso 1:** Esperar confirmación explícita del usuario de que la tarea está COMPLETADA
 - [ ] **Paso 2:** Actualizar bitácoras
@@ -111,10 +111,16 @@ Este archivo es la fuente de verdad para verificar que sigo las reglas del proye
 - [ ] **Paso 3:** AUTO-MANTENIMIENTO (Post-Flight) — según self-maintenance.md
   - [ ] Revisar matriz de actualización
   - [ ] Aplicar cambios correspondientes en configuración del agente
-- [ ] **Paso 4:** Commit directo en `dev` (sin PR)
-
-### 7. Push (sin PR)
-- [ ] Push directo a `dev` (no crear Pull Request)
+- [ ] **Paso 4:** Commit final de cierre (bitácoras + post-flight)
+  - [ ] `git add .` — TODOS los archivos modificados
+  - [ ] `@git-commit-formatter` → mensaje `chore(task): finalize #XXX — bitácoras + post-flight`
+  - [ ] `git commit -m "<mensaje>"`
+  - [ ] `git push origin <feature-branch>`
+  - [ ] **Verificar `git status` → working tree clean (sin cambios pendientes)**
+- [ ] **Paso 5:** Crear Pull Request hacia `dev`
+  - [ ] Base: `dev`, Head: feature branch
+  - [ ] Verificar PR creado correctamente
+  - [ ] NO hacer commit directo en `dev` ni `main`
 
 ## REGLA AGÉNTICA ABSOLUTA — NO INTERCALADO DE PASOS
 
@@ -134,6 +140,7 @@ Este archivo es la fuente de verdad para verificar que sigo las reglas del proye
 
 ## Notas
 - Las secciones 1-5 deben ejecutarse ANTES y DURANTE cada tarea
-- La sección **6 (Post-Flight)** debe ejecutarse después de marcar la tarea como COMPLETADO y ANTES del Push — es de CUMPLIMIENTO OBLIGATORIO y NO NEGOCIABLE
+- La sección **6 (Post-Flight)** debe ejecutarse después de marcar la tarea como COMPLETADO y ANTES del **Commit final de cierre + PR** — es de CUMPLIMIENTO OBLIGATORIO y NO NEGOCIABLE
+- **Regla inquebrantable:** El PR se crea SOLO cuando `git status` está limpio (todos los cambios commiteados y pusheados). No quedan archivos sin commitear después del PR.
 - Si alguna regla no está clara, consultar la documentación del proyecto
 - Las reglas de Git workflow son de CUMPLIMIENTO OBLIGATORIO y NO NEGOCIABLE

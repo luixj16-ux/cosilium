@@ -6,10 +6,10 @@
 ---
 
 ## 🚩 ESTADO ACTUAL
-- **Tarea activa:** `#002 - Eliminar CONSILIUM.md e Indexar Contenido`
-- **Última completada:** `#001 - Configuración Agentica Inicial`
-- **Branch actual:** `dev` (feature branch: `docs/remove-consilium-md`)
-- **Historial:** `#001` completada.
+- **Tarea activa:** *ninguna*
+- **Última completada:** `#002 - Eliminar CONSILIUM.md e Indexar Contenido`
+- **Branch actual:** `dev` (feature branch: `docs/remove-consilium-md` pushed)
+- **Historial:** `#001`, `#002` completadas.
 
 ---
 
@@ -17,7 +17,7 @@
 *(se irá poblando conforme se completen tareas)*
 
 - **#001** ✅ Configuración Agentica Inicial — 2026-10-25
-- **#002** 🟡 Eliminar CONSILIUM.md e Indexar Contenido — 2026-10-26 (EN CURSO)
+- **#002** ✅ Eliminar CONSILIUM.md e Indexar Contenido — 2026-10-26
 
 ---
 
@@ -43,11 +43,11 @@
 - **Regla:** UI dumb = sin estilos propios, solo props/callbacks
 
 ### 🔧 Git Workflow (CUMPLIMIENTO OBLIGATORIO)
-- **.agent/workflows/git-workflow.md** - Flujo de trabajo completo (9 pasos)
+- **.agent/workflows/git-workflow.md** - Flujo de trabajo completo (10 pasos: 9.4 Commit Final + 9.5 PR)
 - **Regla:** NUNCA trabajar en `main` ni en `dev`; trabajo directo solo en feature branch
 - **Regla:** Usar `@git-branch-formatter` para naming
 - **Regla:** Usar `@git-commit-formatter` para mensajes de commit
-- **Regla:** PR — directo solo a `dev` tras aprobación y post-flight
+- **Regla:** PR — solo a `dev` tras aprobación, post-flight, **y commit final de bitácoras (git status limpio)**
 
 ### 📋 Checklist de Verificación
 - **.agent/rules/checklist-verify.md** - Checklist obligatorio antes de cada tarea
@@ -81,12 +81,16 @@
     *   Ejecutar **BUILDS GATE** (6 comandos) antes de commit.
     *   Commit en rama de trabajo usando `@git-commit-formatter`.
     *   Push a rama de trabajo remota.
-    *   Crear **Pull Request hacia `dev`** (base: `dev`).
-    *   Tras merge aprobado, actualizar `.bitacoras/actual.md` y crear/actualizar bitácora según `00-plantilla.md`.
+    *   **Confirmación usuario: tarea COMPLETADA.**
+    *   Actualizar bitácoras (`.bitacoras/###-tarea.md`, `index.md`, `actual.md` → plantilla).
     *   **POST-FLIGHT:** self-maintenance.md → actualizar configs si aplica.
+    *   **Commit final de cierre:** `git add .` → `@git-commit-formatter` → `git commit` → `git push` (bitácoras + post-flight).
+    *   Verificar `git status` → **working tree clean (sin cambios pendientes)**.
+    *   Crear **Pull Request hacia `dev`** (base: `dev`).
+    *   Tras merge aprobado, la rama de trabajo puede eliminarse.
     *   Confirmar completado → cerrar tarea.
 ```
 
 ---
 
-*Actualizado: 2026-10-26* *Tarea #002 en curso: auditoría CONSILIUM.md → indexación en .agent/rules/*
+*Actualizado: 2026-10-26* *Tarea #002 completada: CONSILIUM.md eliminado, 12 archivos creados/actualizados en .agent/rules/, PR pendiente*

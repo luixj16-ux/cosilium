@@ -38,7 +38,8 @@ Al terminar **TODAS** las fases:
 1. **ESPERAR** confirmación del usuario de que la TAREA ESTÁ COMPLETADA.
 2. **ACTUALIZAR BITÁCORAS** (`index.md` + `actual.md` + crear `#XXX-tarea.md`).
 3. **AUTO-MANTENIMIENTO (Post-Flight)** — según `.agent/rules/global-context/self-maintenance.md`.
-4. **CREAR PULL REQUEST HACIA `dev`** — siguiendo `.agent/workflows/git-workflow.md` (rama de trabajo → PR → merge a `dev`). **NUNCA commit directo en `dev` ni en `main`**.
+4. **COMMIT FINAL DE CIERRE** — `git add .` → `@git-commit-formatter` → `git commit` → `git push` (bitácoras + post-flight). **Verificar `git status` → working tree clean (sin cambios pendientes)**.
+5. **CREAR PULL REQUEST HACIA `dev`** — siguiendo `.agent/workflows/git-workflow.md` (rama de trabajo → PR → merge a `dev`). **NUNCA commit directo en `dev` ni en `main`**.
 
 ### 0.6 ROOT CAUSE ANALYSIS OBLIGATORIO
 > Parchear síntomas sin causa raíz genera iteraciones infinitas.
