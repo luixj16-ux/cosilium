@@ -130,12 +130,21 @@ git push
 3. Si hay cambios → actualizar archivos correspondientes según la matriz.
 4. Si NO hay cambios → marcar explícitamente: **"Sin cambios requeridos"**.
 
-### 9.4. Crear Pull Request hacia `dev`
+### 9.4. Commit Final de Cierre (OBLIGATORIO)
+**Antes de crear el PR, DEBES commitear y pushear TODOS los cambios pendientes (bitácoras, post-flight, etc.).**
+1. `git add .` — añadir TODOS los archivos modificados (bitácoras, configs, etc.)
+2. Usar `@git-commit-formatter` para mensaje: `chore(task): finalize #XXX — bitácoras + post-flight`
+3. `git commit -m "<mensaje-generado>"`
+4. `git push origin <feature-branch>`
+5. **Verificar `git status` → working tree clean (sin cambios pendientes)**
+
+### 9.5. Crear Pull Request hacia `dev`
 1. Verificar que la tarea está en estado **COMPLETADO** en la bitácora.
-2. **NUNCA** PR a `main` directamente.
-3. Crear PR **exclusivamente hacia `dev`**.
-4. Verificar que el PR base sea `dev`.
-5. Tras aprobarse el PR y merge, la rama de trabajo puede eliminarse.
+2. Verificar que **NO hay cambios sin commitear** (`git status` limpio).
+3. **NUNCA** PR a `main` directamente.
+4. Crear PR **exclusivamente hacia `dev`**.
+5. Verificar que el PR base sea `dev`.
+6. Tras aprobarse el PR y merge, la rama de trabajo puede eliminarse.
 
 ---
 
@@ -145,3 +154,4 @@ git push
 - `cargo check --workspace --target wasm32-unknown-unknown` valida compilación WASM.
 - Cualquier fallo en los quality gates **bloquea** el commit.
 - **Nunca** hacer commit directo en `main` ni en `dev`. Siempre rama → PR → merge a `dev`.
+- **Regla inquebrantable:** El PR se crea SOLO cuando `git status` está limpio (todos los cambios commiteados y pusheados). No quedan archivos sin commitear después del PR.

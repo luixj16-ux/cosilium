@@ -67,11 +67,50 @@ export const Ejemplo: React.FC<EjemploProps> = ({ items, onCancel, onRetry }) =>
 - Verificar que callbacks se llaman con args correctos.
 - No testear estilos.
 
-## 7. Ejemplo Canónico
+## 7. Componentes Legacy a Migrar (Referencia)
+
+| Componente Legacy (`app.js`/`styles.css`) | Componente Dumb Sugerido | Payload Props |
+|---|---|---|
+| `renderCourtsGrid()` + `.court-card` | `CourtGrid` | `courts: CourtPayload[]`, `onSelect: (id: string) => void` |
+| `renderCourtCasesList()` + `.case-item` | `CaseList` | `cases: CasePayload[]`, `onOpen: (id: string) => void`, `onCreateNew: () => void` |
+| `openCaseDetail()` + `#modal-case-detail` | `CaseDetailModal` | `case: CaseDetailPayload`, `onClose: () => void`, `onAddActuation: (data) => void`, `onDelete: (id: string) => void` |
+| `renderLawTabs()` + `.law-item` | `LawLibrary` | `categories: LawCategoryPayload[]`, `onSelectLaw: (law: LawPayload) => void` |
+| `renderLegalNews()` + `.news-carousel` | `NewsCarousel` | `items: NewsPayload[]`, `onNavigate: (index: number) => void` |
+| `setupVirtualAssistant()` + `.virtual-assistant` | `VirtualAssistant` | `messages: MessagePayload[]`, `onSend: (text: string) => void`, `onClose: () => void` |
+| `showTSJToast()` + `.toast-stack` | `ToastStack` | `toasts: ToastPayload[]`, `onDismiss: (id: string) => void` |
+| `setupPortalTabs()` + `.portal-tabs` | `PortalTabs` | `tabs: TabPayload[]`, `activeTab: string`, `onChange: (tab: string) => void` |
+| `.process-step-bar` (4 pasos) | `ProcessStepBar` | `steps: StepPayload[]`, `currentStep: number` |
+| `.state-badge` (estados procesales) | `StateBadge` | `status: CaseStatus`, `size: 'sm' \| 'md' \| 'lg'` |
+| `.nue-tag` (NUE monospace) | `NUETag` | `nue: string` |
+| `.category-pill` | `CategoryPill` | `label: string`, `variant: 'primary' \| 'secondary' \| 'outline'` |
+
+## 8. Tokens CSS Requeridos (ver `colors.md`)
+
+```css
+/* Colores base */
+var(--color-primary)        /* Azul TSJ */
+var(--color-accent)         /* Dorado TSJ */
+var(--color-navy)           /* Navy TSJ */
+var(--color-bg)             /* Fondo app */
+var(--color-bg-alt)         /* Fondo tarjetas */
+var(--color-text)           /* Texto principal */
+
+/* Estados */
+var(--color-success)        /* Verde */
+var(--color-danger)         /* Rojo urgente */
+var(--color-warning)        /* Ámbar */
+
+/* Espaciado y forma */
+var(--radius-sm) --radius-md --radius-lg --radius-xl --radius-pill
+var(--shadow-sm) --shadow-card --shadow-hover --shadow-primary
+```
+
+## 9. Ejemplo Canónico
 Ver `DocumentUploadList.tsx` en `packages/ui/src/components/` (coincide con MASTER_INIT_PROMPT §3.1).
 
 ## Referencias
 - `design-system/index.md` (regla: UI dumb sin estilos propios).
-- `design-system/colors.md` (tokens CSS).
+- `design-system/colors.md` (tokens CSS oficiales TSJ).
+- `design-system/legacy-tokens.md` (tokens completos legacy para referencia).
 - `ui-dumb-components` skill (plantilla + checklist).
 - `technical-rules.md` (Fullstack Integrity → UI dumb).
